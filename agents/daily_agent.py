@@ -98,13 +98,19 @@ def write_json_output(summary: dict, items: list[ReportItem], report_date: str) 
 
 def send_report_email(html_text: str, markdown_text: str, report_date: str) -> str:
     smtp_server = os.getenv("SMTP_SERVER", "")
-    smtp_port = int(os.getenv("SMTP_PORT", "587"))
+    smtp_port_raw = os.getenv("SMTP_PORT") or "587"
     smtp_user = os.getenv("SMTP_USER", "")
     smtp_password = os.getenv("SMTP_PASSWORD", "")
     email_to = os.getenv("EMAIL_TO", "haoshi@tju.edu.cn")
 
     if not all([smtp_server, smtp_user, smtp_password, email_to]):
         logging.error("SMTP settings are incomplete; email not sent.")
+        return "failed"
+
+    try:
+        smtp_port = int(smtp_port_raw)
+    except ValueError:
+        logging.error("SMTP_PORT must be a number, got %r; email not sent.", smtp_port_raw)
         return "failed"
 
     message = EmailMessage()
