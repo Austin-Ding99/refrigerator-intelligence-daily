@@ -18,6 +18,8 @@ CATEGORY_TITLES = {
     "market": "市场行情",
 }
 
+LAST_LLM_STATUS = "not_run"
+
 
 def group_items(items: list[ReportItem]) -> dict[str, list[ReportItem]]:
     grouped: dict[str, list[ReportItem]] = defaultdict(list)
@@ -32,8 +34,11 @@ def summarize_once(
     prompt_path: str = "prompts/daily_summary.md",
     provider_config_path: str = "config/llm_providers.yaml",
 ) -> dict[str, list[dict]]:
+    global LAST_LLM_STATUS
+
     grouped = group_items(items)
     if not items:
+        LAST_LLM_STATUS = "skipped_no_candidates"
         return template_summary(grouped)
 
     prompt = read_prompt(prompt_path)
@@ -56,11 +61,19 @@ def summarize_once(
         try:
             content = call_llm(provider_config, prompt, payload)
             parsed = json.loads(content)
+            LAST_LLM_STATUS = "called"
             return normalize_summary(parsed, grouped)
         except Exception as exc:  # noqa: BLE001
+            LAST_LLM_STATUS = "fallback_llm_error"
             logging.warning("LLM summary failed, using template summary: %s", exc)
+    else:
+        LAST_LLM_STATUS = "fallback_no_provider_or_key"
 
     return template_summary(grouped)
+
+
+def get_llm_status() -> str:
+    return LAST_LLM_STATUS
 
 
 def read_prompt(path: str) -> str:

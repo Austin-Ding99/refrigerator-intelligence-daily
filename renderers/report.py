@@ -15,7 +15,12 @@ SECTION_LABELS = {
 }
 
 
-def render_markdown(summary: dict[str, list[dict]], report_date: str, generated_at: datetime) -> str:
+def render_markdown(
+    summary: dict[str, list[dict]],
+    report_date: str,
+    generated_at: datetime,
+    diagnostics: dict | None = None,
+) -> str:
     lines = [
         "# 冰箱行业 AI 科技日报",
         "",
@@ -24,6 +29,9 @@ def render_markdown(summary: dict[str, list[dict]], report_date: str, generated_
         "---",
         "",
     ]
+    if diagnostics:
+        lines.extend(render_diagnostics(diagnostics))
+        lines.append("")
 
     for category, title in SECTION_LABELS.items():
         lines.extend([f"## {title}", ""])
@@ -44,6 +52,42 @@ def render_markdown(summary: dict[str, list[dict]], report_date: str, generated_
         ]
     )
     return "\n".join(lines)
+
+
+def render_diagnostics(diagnostics: dict) -> list[str]:
+    sources = diagnostics.get("sources", {})
+    statuses = diagnostics.get("statuses", {})
+    return [
+        "## 运行状态",
+        "",
+        f"- 固定源采集：RSS {sources.get('rss', 0)} 条，官网/网页 {sources.get('web', 0)} 条",
+        f"- AnySearch：{format_anysearch_status(statuses.get('anysearch'), sources.get('anysearch', 0))}",
+        f"- 过滤结果：原始 {sources.get('raw_total', 0)} 条，保留 {sources.get('kept', 0)} 条",
+        f"- AI总结：{format_llm_status(statuses.get('llm'))}",
+        "",
+        "---",
+    ]
+
+
+def format_anysearch_status(status: str | None, count: int) -> str:
+    if status == "not_configured":
+        return "未配置 ANYSEARCH_API_KEY，未执行搜索"
+    if status == "called":
+        return f"已执行 batch_search，返回 {count} 条"
+    if status == "called_no_results_or_failed":
+        return "已尝试执行 batch_search，但未返回可用结果；详见日志"
+    return "状态未知"
+
+
+def format_llm_status(status: str | None) -> str:
+    labels = {
+        "called": "已调用模型生成摘要",
+        "skipped_no_candidates": "无候选内容，未调用模型",
+        "fallback_no_provider_or_key": "未配置模型 provider/API key，使用规则模板",
+        "fallback_llm_error": "模型调用失败，使用规则模板",
+        "not_run": "未运行",
+    }
+    return labels.get(status or "not_run", status or "未运行")
 
 
 def render_entry(category: str, entry: dict) -> list[str]:

@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from collectors.search import ReportItem, dedupe_items, filter_recent, score_item
 from collectors.sources import collect_all_items, load_sources
 from renderers.report import render_html, render_markdown, write_outputs
-from summarizers.llm import summarize_once
+from summarizers.llm import get_llm_status, summarize_once
 
 
 BEIJING_TZ = ZoneInfo("Asia/Shanghai")
@@ -41,6 +41,7 @@ def run_daily_report(dry_run: bool = True, send_email: bool = False) -> dict:
     config = load_sources()
     raw_items = collect_all_items(config)
     logging.info("Collected %s raw items", len(raw_items))
+    source_counts = count_items_by_provider(raw_items)
 
     naive_now = now.replace(tzinfo=None)
     recent_items = filter_recent(raw_items, naive_now, hours=24, patent_days=7)
@@ -53,7 +54,8 @@ def run_daily_report(dry_run: bool = True, send_email: bool = False) -> dict:
     logging.info("Kept %s items after recent filter, scoring and dedupe", len(deduped_items))
 
     summary = summarize_once(deduped_items)
-    markdown_text = render_markdown(summary, report_date, now)
+    diagnostics = build_diagnostics(raw_items, deduped_items, source_counts)
+    markdown_text = render_markdown(summary, report_date, now, diagnostics=diagnostics)
     html_text = render_html(markdown_text)
     md_path, html_path = write_outputs(markdown_text, html_text, report_date)
     json_path = write_json_output(summary, deduped_items, report_date)
@@ -94,6 +96,44 @@ def write_json_output(summary: dict, items: list[ReportItem], report_date: str) 
     }
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
+
+
+def count_items_by_provider(items: list[ReportItem]) -> dict[str, int]:
+    counts = {"rss": 0, "web": 0, "anysearch": 0}
+    for item in items:
+        provider = item.metadata.get("provider", "")
+        if provider in counts:
+            counts[provider] += 1
+    return counts
+
+
+def build_diagnostics(
+    raw_items: list[ReportItem],
+    kept_items: list[ReportItem],
+    source_counts: dict[str, int],
+) -> dict:
+    anysearch_configured = bool(os.getenv("ANYSEARCH_API_KEY"))
+    anysearch_count = source_counts.get("anysearch", 0)
+    if not anysearch_configured:
+        anysearch_status = "not_configured"
+    elif anysearch_count:
+        anysearch_status = "called"
+    else:
+        anysearch_status = "called_no_results_or_failed"
+
+    return {
+        "sources": {
+            "rss": source_counts.get("rss", 0),
+            "web": source_counts.get("web", 0),
+            "anysearch": anysearch_count,
+            "raw_total": len(raw_items),
+            "kept": len(kept_items),
+        },
+        "statuses": {
+            "anysearch": anysearch_status,
+            "llm": get_llm_status(),
+        },
+    }
 
 
 def send_report_email(html_text: str, markdown_text: str, report_date: str) -> str:

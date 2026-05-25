@@ -42,6 +42,7 @@ LLM_MODEL=
 DEEPSEEK_API_KEY=
 SILICONFLOW_API_KEY=
 ANYSEARCH_API_KEY=
+ANYSEARCH_ENDPOINT=
 SMTP_SERVER=
 SMTP_PORT=587
 SMTP_USER=
@@ -49,7 +50,13 @@ SMTP_PASSWORD=
 EMAIL_TO=haoshi@tju.edu.cn
 ```
 
-`ANYSEARCH_API_KEY` 可为空；为空时跳过 AnySearch，只使用 RSS 和固定网页源。
+`ANYSEARCH_API_KEY` 可为空；为空时跳过 AnySearch，只使用 RSS 和固定网页源。日报顶部的“运行状态”会明确显示 AnySearch 是否实际执行、返回多少条结果，以及 LLM 是否被调用。
+
+如果 AnySearch 服务地址不是默认值，可配置：
+
+```text
+ANYSEARCH_ENDPOINT=https://your-anysearch-endpoint
+```
 
 LLM provider 默认配置在 `config/llm_providers.yaml`：
 
@@ -131,6 +138,7 @@ LLM_MODEL
 DEEPSEEK_API_KEY
 SILICONFLOW_API_KEY
 ANYSEARCH_API_KEY
+ANYSEARCH_ENDPOINT
 SMTP_SERVER
 SMTP_PORT
 SMTP_USER
@@ -166,4 +174,5 @@ pytest
 - 去重。
 - 评分阈值。
 - 无内容提示。
+- 运行状态提示。
 - dry-run 输出 Markdown / HTML。

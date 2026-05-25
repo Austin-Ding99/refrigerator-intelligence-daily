@@ -54,10 +54,16 @@ def test_scoring_threshold_formula() -> None:
 
 
 def test_empty_renderer_message_and_html() -> None:
-    markdown_text = render_markdown({}, "2026-05-26", datetime(2026, 5, 26, 8, 30, 0))
+    diagnostics = {
+        "sources": {"rss": 0, "web": 0, "anysearch": 0, "raw_total": 0, "kept": 0},
+        "statuses": {"anysearch": "not_configured", "llm": "skipped_no_candidates"},
+    }
+    markdown_text = render_markdown({}, "2026-05-26", datetime(2026, 5, 26, 8, 30, 0), diagnostics)
     html_text = render_html(markdown_text)
 
     assert "最近24小时内暂无更新" in markdown_text
+    assert "AnySearch：未配置 ANYSEARCH_API_KEY，未执行搜索" in markdown_text
+    assert "AI总结：无候选内容，未调用模型" in markdown_text
     assert "冰箱行业 AI 科技日报" in html_text
 
 
