@@ -101,7 +101,7 @@ def send_report_email(html_text: str, markdown_text: str, report_date: str) -> s
     smtp_port_raw = os.getenv("SMTP_PORT") or "587"
     smtp_user = os.getenv("SMTP_USER", "")
     smtp_password = os.getenv("SMTP_PASSWORD", "")
-    email_to = os.getenv("EMAIL_TO", "haoshi@tju.edu.cn")
+    email_to = os.getenv("EMAIL_TO") or "haoshi@tju.edu.cn"
 
     if not all([smtp_server, smtp_user, smtp_password, email_to]):
         logging.error("SMTP settings are incomplete; email not sent.")
