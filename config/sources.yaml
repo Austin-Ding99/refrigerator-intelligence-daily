@@ -1,0 +1,34 @@
+trusted_sources:
+  Samsung Newsroom: 0.95
+  LG Newsroom: 0.95
+  Haier Newsroom: 0.95
+  Midea News Center: 0.95
+  ACHR News: 0.88
+  Appliance Design: 0.86
+  Google Patents: 0.92
+  WIPO: 0.95
+  USPTO: 0.95
+  CNIPA: 0.95
+  AnySearch: 0.80
+
+rss_sources:
+  - name: Samsung Newsroom
+    url: https://news.samsung.com/global/feed
+  - name: LG Newsroom
+    url: https://www.lgnewsroom.com/feed/
+  - name: ACHR News
+    url: https://www.achrnews.com/rss
+
+web_sources:
+  - name: Haier Newsroom
+    url: https://www.haier.com/global/press-events/news/
+  - name: Midea News Center
+    url: https://www.midea-group.com/news
+  - name: Appliance Design
+    url: https://www.appliancedesign.com/
+
+category_queries:
+  technology: refrigerator cooling thermal management foam compressor energy saving ice making defrost preservation vacuum insulation refrigerant sensor heat pump new material
+  ai_application: refrigerator AI energy saving control fault diagnosis predictive maintenance digital twin manufacturing experiment platform agent LLM
+  patent: refrigerator patent Haier Midea Hisense Gree Samsung LG Whirlpool Bosch Panasonic cooling compressor defrost insulation
+  market: refrigerator copper aluminum steel compressor supply chain chip export policy appliance consumption trend
