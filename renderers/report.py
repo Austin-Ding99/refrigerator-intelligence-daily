@@ -57,11 +57,19 @@ def render_markdown(
 def render_diagnostics(diagnostics: dict) -> list[str]:
     sources = diagnostics.get("sources", {})
     statuses = diagnostics.get("statuses", {})
+    anysearch = diagnostics.get("anysearch", {})
     return [
         "## 运行状态",
         "",
         f"- 固定源采集：RSS {sources.get('rss', 0)} 条，官网/网页 {sources.get('web', 0)} 条",
         f"- AnySearch：{format_anysearch_status(statuses.get('anysearch'), sources.get('anysearch', 0))}",
+        (
+            "- AnySearch解析："
+            f"HTTP {format_http_statuses(anysearch.get('http_statuses', []))}，"
+            f"parsed {anysearch.get('parsed_item_count', 0)} 条，"
+            f"retained {anysearch.get('retained_item_count', sources.get('anysearch_retained', 0))} 条"
+        ),
+        f"- AnySearch raw response sample：`{format_raw_sample(anysearch.get('raw_response_sample', ''))}`",
         f"- 过滤结果：原始 {sources.get('raw_total', 0)} 条，保留 {sources.get('kept', 0)} 条",
         f"- AI总结：{format_llm_status(statuses.get('llm'))}",
         "",
@@ -73,18 +81,29 @@ def format_anysearch_status(status: str | None, count: int) -> str:
     if status == "not_configured":
         return "未配置 ANYSEARCH_API_KEY，未执行搜索"
     if status == "called_with_key":
-        return f"已使用 API key 执行 batch_search，返回 {count} 条"
+        return f"已使用 API key 调用 AnySearch v1/search，返回 {count} 条"
     if status == "called_anonymous":
-        return f"已匿名执行 batch_search，返回 {count} 条"
+        return f"已匿名调用 AnySearch v1/search，返回 {count} 条"
     if status == "called":
-        return f"已执行 batch_search，返回 {count} 条"
+        return f"已调用 AnySearch v1/search，返回 {count} 条"
     if status == "called_no_results":
-        return "已执行 batch_search，但未返回可用结果；详见日志"
+        return "已调用 AnySearch v1/search，但未返回可用结果；详见日志"
     if status == "failed":
-        return "batch_search 调用失败；详见日志"
+        return "AnySearch v1/search 调用失败；已回退到 RSS/网页源，详见日志"
     if status == "called_no_results_or_failed":
-        return "已尝试执行 batch_search，但未返回可用结果；详见日志"
+        return "已尝试调用 AnySearch，但未返回可用结果；详见日志"
     return "状态未知"
+
+
+def format_http_statuses(statuses: list[int]) -> str:
+    return ",".join(str(status) for status in statuses) if statuses else "none"
+
+
+def format_raw_sample(sample: str) -> str:
+    if not sample:
+        return "none"
+    normalized = " ".join(sample.split())
+    return normalized[:500]
 
 
 def format_llm_status(status: str | None) -> str:

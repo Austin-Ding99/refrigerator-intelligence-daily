@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Any
 
 from agents.daily_agent import append_daily_push_archive, has_successful_push
-from collectors.search import ReportItem, dedupe_items, filter_recent, parse_markdown_anysearch_output, score_item
+from collectors.search import AnySearchProvider, ReportItem, dedupe_items, filter_recent, parse_anysearch_v1_results, score_item
 from renderers.report import render_html, render_markdown
 from summarizers.llm import load_provider_config, template_summary
 
@@ -110,33 +111,49 @@ providers:
     assert switched_config["model"] == "second-model"
 
 
-def test_anysearch_markdown_batch_output_is_parsed_by_query_group() -> None:
-    text = """
-## Query 1: refrigerator AI
+def test_anysearch_v1_results_are_parsed_from_common_shapes() -> None:
+    direct = {"results": [{"title": "A", "url": "https://example.com/a"}]}
+    nested = {"data": {"items": [{"title": "B", "url": "https://example.com/b"}]}}
 
-## Search Results (1 result)
+    assert parse_anysearch_v1_results(direct)[0]["title"] == "A"
+    assert parse_anysearch_v1_results(nested)[0]["title"] == "B"
 
-### 1. AI Energy Mode refrigerator
-- **URL**: https://example.com/ai-energy
-- Smart compressor and defrost control.
 
----
+def test_anysearch_provider_uses_v1_payload_and_bearer_header(monkeypatch) -> None:
+    captured: dict[str, Any] = {}
 
-## Query 2: refrigerator patent
+    class FakeResponse:
+        status_code = 200
+        text = '{"results":[]}'
 
-## Search Results (1 result)
+        def json(self) -> dict:
+            return {"results": [{"title": "AI fridge", "url": "https://example.com", "snippet": "Cooling AI"}]}
 
-### 1. Refrigerator control method
-- **URL**: https://example.com/patent
-- Compressor patent summary.
-"""
+        def raise_for_status(self) -> None:
+            return None
 
-    groups = parse_markdown_anysearch_output(text)
+    def fake_post(url: str, json: dict, headers: dict, timeout: int) -> FakeResponse:  # noqa: A002
+        captured["url"] = url
+        captured["json"] = json
+        captured["headers"] = headers
+        captured["timeout"] = timeout
+        return FakeResponse()
 
-    assert len(groups) == 2
-    assert groups[0]["items"][0]["title"] == "AI Energy Mode refrigerator"
-    assert groups[0]["items"][0]["url"] == "https://example.com/ai-energy"
-    assert groups[1]["items"][0]["summary"] == "Compressor patent summary."
+    monkeypatch.setattr("collectors.search.requests.post", fake_post)
+    provider = AnySearchProvider(
+        endpoint="https://api.anysearch.com/v1/search",
+        api_key="secret-token",
+        domains=["tech"],
+    )
+
+    result = provider.search("refrigerator AI", "technology", max_results=5)
+
+    assert captured["url"] == "https://api.anysearch.com/v1/search"
+    assert captured["json"] == {"query": "refrigerator AI", "domains": ["tech"], "max_results": 5}
+    assert captured["headers"]["Content-Type"] == "application/json"
+    assert captured["headers"]["Authorization"] == "Bearer secret-token"
+    assert result.parsed_item_count == 1
+    assert result.items[0].title == "AI fridge"
 
 
 def test_daily_push_archive_records_success_marker(tmp_path: Path) -> None:
@@ -152,7 +169,11 @@ def test_daily_push_archive_records_success_marker(tmp_path: Path) -> None:
         md_path=tmp_path / "report.md",
         html_path=tmp_path / "report.html",
         json_path=tmp_path / "report.json",
-        diagnostics={"sources": {"anysearch": 1}, "statuses": {"anysearch": "called", "llm": "called"}},
+        diagnostics={
+            "sources": {"anysearch": 1},
+            "statuses": {"anysearch": "called", "llm": "called"},
+            "anysearch": {"parsed_item_count": 1, "retained_item_count": 1, "http_statuses": [200]},
+        },
     )
 
     content = archive_path.read_text(encoding="utf-8")

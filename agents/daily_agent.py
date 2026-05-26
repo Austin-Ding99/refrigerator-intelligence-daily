@@ -13,7 +13,14 @@ from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
 
-from collectors.search import ReportItem, dedupe_items, filter_recent, get_anysearch_status, score_item
+from collectors.search import (
+    ReportItem,
+    dedupe_items,
+    filter_recent,
+    get_anysearch_diagnostics,
+    get_anysearch_status,
+    score_item,
+)
 from collectors.sources import collect_all_items, load_sources
 from renderers.report import render_html, render_markdown, write_outputs
 from summarizers.llm import get_llm_status, summarize_once
@@ -80,13 +87,19 @@ def run_daily_report(
     filtered_items = [item for item in scored_items if item.score > SCORE_THRESHOLD]
     deduped_items = dedupe_items(filtered_items)
     logging.info("Kept %s items after recent filter, scoring and dedupe", len(deduped_items))
+    retained_counts = count_items_by_provider(deduped_items)
+    logging.info(
+        "AnySearch counts: parsed=%s retained=%s",
+        get_anysearch_diagnostics().get("parsed_item_count", 0),
+        retained_counts.get("anysearch", 0),
+    )
 
     summary = summarize_once(deduped_items)
-    diagnostics = build_diagnostics(raw_items, deduped_items, source_counts)
+    diagnostics = build_diagnostics(raw_items, deduped_items, source_counts, retained_counts)
     markdown_text = render_markdown(summary, report_date, now, diagnostics=diagnostics)
     html_text = render_html(markdown_text)
     md_path, html_path = write_outputs(markdown_text, html_text, report_date)
-    json_path = write_json_output(summary, deduped_items, report_date)
+    json_path = write_json_output(summary, deduped_items, report_date, diagnostics=diagnostics)
 
     email_status = "skipped"
     if send_email and not dry_run:
@@ -168,6 +181,7 @@ def append_daily_push_archive(
     generated_iso = generated_at.astimezone(BEIJING_TZ).isoformat()
     sources = diagnostics.get("sources", {})
     statuses = diagnostics.get("statuses", {})
+    anysearch = diagnostics.get("anysearch", {})
     entry = "\n".join(
         [
             "",
@@ -178,7 +192,8 @@ def append_daily_push_archive(
             f"- 生成时间：{generated_at.strftime('%Y-%m-%d %H:%M:%S')} 北京时间",
             f"- 邮件状态：{email_status}",
             f"- 收录条目：{item_count}",
-            f"- AnySearch：{statuses.get('anysearch', 'not_run')}，返回 {sources.get('anysearch', 0)} 条",
+            f"- AnySearch：{statuses.get('anysearch', 'not_run')}，parsed {anysearch.get('parsed_item_count', 0)} 条，retained {anysearch.get('retained_item_count', 0)} 条",
+            f"- AnySearch HTTP：{anysearch.get('http_statuses', [])}",
             f"- AI总结：{statuses.get('llm', 'not_run')}",
             f"- 输出文件：`{md_path}` / `{html_path}` / `{json_path}`",
             "",
@@ -196,7 +211,7 @@ def append_daily_push_archive(
     return archive_path
 
 
-def write_json_output(summary: dict, items: list[ReportItem], report_date: str) -> Path:
+def write_json_output(summary: dict, items: list[ReportItem], report_date: str, diagnostics: dict | None = None) -> Path:
     output_dir = Path("outputs")
     output_dir.mkdir(exist_ok=True)
     path = output_dir / f"daily_report_{report_date}.json"
@@ -212,6 +227,7 @@ def write_json_output(summary: dict, items: list[ReportItem], report_date: str) 
             }
             for item in items
         ],
+        "diagnostics": diagnostics or {},
         "generated_at_utc": datetime.now(UTC).isoformat(),
     }
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -231,23 +247,35 @@ def build_diagnostics(
     raw_items: list[ReportItem],
     kept_items: list[ReportItem],
     source_counts: dict[str, int],
+    retained_counts: dict[str, int] | None = None,
 ) -> dict:
+    retained_counts = retained_counts or count_items_by_provider(kept_items)
     anysearch_count = source_counts.get("anysearch", 0)
     anysearch_status = get_anysearch_status()
     if anysearch_status == "called" and not anysearch_count:
         anysearch_status = "called_no_results"
+    anysearch_diagnostics = get_anysearch_diagnostics()
 
     return {
         "sources": {
             "rss": source_counts.get("rss", 0),
             "web": source_counts.get("web", 0),
             "anysearch": anysearch_count,
+            "anysearch_retained": retained_counts.get("anysearch", 0),
             "raw_total": len(raw_items),
             "kept": len(kept_items),
         },
         "statuses": {
             "anysearch": anysearch_status,
             "llm": get_llm_status(),
+        },
+        "anysearch": {
+            "endpoint": anysearch_diagnostics.get("endpoint", ""),
+            "domains": anysearch_diagnostics.get("domains", []),
+            "http_statuses": anysearch_diagnostics.get("http_statuses", []),
+            "raw_response_sample": anysearch_diagnostics.get("raw_response_sample", ""),
+            "parsed_item_count": anysearch_diagnostics.get("parsed_item_count", 0),
+            "retained_item_count": retained_counts.get("anysearch", 0),
         },
     }
 

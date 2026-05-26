@@ -4,7 +4,7 @@
 
 ## 设计原则
 
-- RSS 和固定可信源优先，AnySearch 每天最多一次批量补充搜索。
+- RSS 和固定可信源优先，AnySearch 使用官方 v1/search 接口按栏目补充搜索。
 - 先规则过滤和评分，再调用 LLM。
 - LLM 每天最多一次总结调用，使用 OpenAI-compatible provider 架构；默认 provider 为 DeepSeek，可切换到 SiliconFlow 等兼容服务。
 - LLM 或邮件失败不影响本地报告生成。
@@ -15,7 +15,7 @@
 ```text
 agents/daily_agent.py          # 主流程、日志、邮件发送
 collectors/sources.py          # RSS/网页/AnySearch 聚合
-collectors/search.py           # 数据模型、评分、去重、AnySearch JSON-RPC 适配
+collectors/search.py           # 数据模型、评分、去重、模块化搜索 provider
 summarizers/llm.py             # 单次 LLM 总结和模板降级
 renderers/report.py            # Markdown 和 HTML 邮件渲染
 config/sources.yaml            # 可信源、RSS、查询词、可信度
@@ -43,7 +43,7 @@ LLM_MODEL=
 DEEPSEEK_API_KEY=
 SILICONFLOW_API_KEY=
 ANYSEARCH_API_KEY=
-ANYSEARCH_ENDPOINT=
+ANYSEARCH_ENDPOINT=https://api.anysearch.com/v1/search
 SMTP_SERVER=
 SMTP_PORT=587
 SMTP_USER=
@@ -55,7 +55,7 @@ EMAIL_TO=haoshi@tju.edu.cn
 DAILY_PUSH_LOG_PATH=daily_push_log.md
 ```
 
-`ANYSEARCH_API_KEY` 可为空；为空时会尝试 AnySearch 匿名访问。日报顶部的“运行状态”会明确显示 AnySearch 是否实际执行、返回多少条结果，以及 LLM 是否被调用。
+AnySearch 默认 endpoint 为 `https://api.anysearch.com/v1/search`，请求体为 `{"query":"...","domains":["tech"],"max_results":5}`。如果配置了 `ANYSEARCH_API_KEY`，系统会追加 `Authorization: Bearer <token>`；未配置时会不带 Authorization 尝试请求。日报顶部和 JSON 输出会记录 response status、raw response sample、parsed item count 和 retained item count。AnySearch 失败不会中断日报，系统会继续使用 RSS 和固定网页源。
 
 如果 AnySearch 服务地址不是默认值，可配置：
 

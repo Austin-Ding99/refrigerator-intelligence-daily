@@ -27,6 +27,11 @@ web_sources:
   - name: Appliance Design
     url: https://www.appliancedesign.com/
 
+anysearch:
+  domains:
+    - tech
+  max_results: 5
+
 category_queries:
   technology: refrigerator cooling thermal management foam compressor energy saving ice making defrost preservation vacuum insulation refrigerant sensor heat pump new material
   ai_application: refrigerator AI energy saving control fault diagnosis predictive maintenance digital twin manufacturing experiment platform agent LLM

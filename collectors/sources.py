@@ -8,7 +8,7 @@ import feedparser
 import yaml
 from bs4 import BeautifulSoup
 
-from collectors.search import ReportItem, anysearch_batch_search, http_get
+from collectors.search import ReportItem, anysearch_search_categories, http_get
 
 BEIJING_TZ_NAME = "Asia/Shanghai"
 
@@ -94,7 +94,10 @@ def collect_web_items(config: dict) -> list[ReportItem]:
 
 
 def collect_anysearch_items(config: dict) -> list[ReportItem]:
-    return anysearch_batch_search(config.get("category_queries", {}), max_results=5)
+    anysearch_config = config.get("anysearch", {})
+    domains = anysearch_config.get("domains", ["web"])
+    max_results = int(anysearch_config.get("max_results", 5))
+    return anysearch_search_categories(config.get("category_queries", {}), max_results=max_results, domains=domains)
 
 
 def collect_all_items(config: dict) -> list[ReportItem]:

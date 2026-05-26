@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import logging
 import os
-import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from difflib import SequenceMatcher
@@ -85,6 +84,16 @@ MARKET_TERMS = {
 }
 
 LAST_ANYSEARCH_STATUS = "not_run"
+LAST_ANYSEARCH_DIAGNOSTICS: dict[str, Any] = {
+    "status": "not_run",
+    "endpoint": "",
+    "http_statuses": [],
+    "raw_response_sample": "",
+    "parsed_item_count": 0,
+}
+DEFAULT_ANYSEARCH_ENDPOINT = "https://api.anysearch.com/v1/search"
+DEFAULT_ANYSEARCH_DOMAINS = ["tech"]
+RAW_RESPONSE_SAMPLE_LIMIT = 1200
 
 
 @dataclass
@@ -108,6 +117,62 @@ class ReportItem:
 
     def text_for_scoring(self) -> str:
         return " ".join([self.title, self.summary, self.raw_text]).lower()
+
+
+@dataclass
+class SearchProviderResult:
+    items: list[ReportItem]
+    raw_response_sample: str = ""
+    parsed_item_count: int = 0
+    http_status: int | None = None
+    status: str = "not_run"
+
+
+@dataclass
+class AnySearchProvider:
+    endpoint: str
+    api_key: str
+    domains: list[str]
+    timeout: int = 30
+
+    def search(self, query: str, category: str, max_results: int = 5) -> SearchProviderResult:
+        payload = {
+            "query": query,
+            "domains": self.domains,
+            "max_results": max_results,
+        }
+        headers = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
+
+        try:
+            response = requests.post(self.endpoint, json=payload, headers=headers, timeout=self.timeout)
+            logging.info("AnySearch response status for %s: %s", category, response.status_code)
+            raw_sample = sample_response_text(response)
+            response.raise_for_status()
+            data = response.json()
+        except Exception as exc:  # noqa: BLE001
+            logging.warning("AnySearch search failed for %s: %s", category, exc)
+            return SearchProviderResult(
+                items=[],
+                raw_response_sample=locals().get("raw_sample", ""),
+                http_status=getattr(locals().get("response", None), "status_code", None),
+                status="failed",
+            )
+
+        parsed_entries = parse_anysearch_v1_results(data)
+        items = [
+            build_anysearch_item(entry, category)
+            for entry in parsed_entries[:max_results]
+        ]
+        items = [item for item in items if item is not None]
+        return SearchProviderResult(
+            items=items,
+            raw_response_sample=raw_sample,
+            parsed_item_count=len(parsed_entries),
+            http_status=response.status_code,
+            status="called",
+        )
 
 
 def normalize_title(title: str) -> str:
@@ -212,148 +277,135 @@ def get_anysearch_status() -> str:
     return LAST_ANYSEARCH_STATUS
 
 
+def get_anysearch_diagnostics() -> dict[str, Any]:
+    return dict(LAST_ANYSEARCH_DIAGNOSTICS)
+
+
 def anysearch_batch_search(queries: dict[str, str], max_results: int = 5) -> list[ReportItem]:
+    return anysearch_search_categories(queries, max_results=max_results)
+
+
+def anysearch_search_categories(
+    queries: dict[str, str],
+    max_results: int = 5,
+    domains: list[str] | None = None,
+) -> list[ReportItem]:
     global LAST_ANYSEARCH_STATUS
+    global LAST_ANYSEARCH_DIAGNOSTICS
 
     api_key = os.getenv("ANYSEARCH_API_KEY", "")
-    endpoint = os.getenv("ANYSEARCH_ENDPOINT", "https://api.anysearch.com/mcp")
+    endpoint = os.getenv("ANYSEARCH_ENDPOINT", DEFAULT_ANYSEARCH_ENDPOINT)
+    search_domains = domains or DEFAULT_ANYSEARCH_DOMAINS
+    provider = AnySearchProvider(endpoint=endpoint, api_key=api_key, domains=search_domains)
+    http_statuses: list[int] = []
+    raw_response_sample = ""
+    parsed_item_count = 0
+    items: list[ReportItem] = []
+
     LAST_ANYSEARCH_STATUS = "called_with_key" if api_key else "called_anonymous"
     if not api_key:
-        logging.info("ANYSEARCH_API_KEY is not set; trying AnySearch anonymous access.")
+        logging.info("ANYSEARCH_API_KEY is not set; trying AnySearch without Authorization header.")
 
-    payload = {
-        "jsonrpc": "2.0",
-        "id": 1,
-        "method": "tools/call",
-        "params": {
-            "name": "batch_search",
-            "arguments": {
-                "queries": [
-                    {"query": query, "max_results": max_results, "freshness": "day"}
-                    for query in queries.values()
-                ]
-            },
-        },
-    }
-    categories = list(queries.keys())
+    for category, query in queries.items():
+        result = provider.search(query=query, category=category, max_results=max_results)
+        if result.http_status is not None:
+            http_statuses.append(result.http_status)
+        if result.raw_response_sample and not raw_response_sample:
+            raw_response_sample = result.raw_response_sample
+        parsed_item_count += result.parsed_item_count
+        items.extend(result.items)
 
-    try:
-        response = requests.post(
-            endpoint,
-            json=payload,
-            timeout=30,
-            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        )
-        response.raise_for_status()
-        data = response.json()
-    except Exception as exc:  # noqa: BLE001
-        logging.warning("AnySearch batch search failed: %s", exc)
+    if items:
+        LAST_ANYSEARCH_STATUS = "called"
+    elif http_statuses:
+        LAST_ANYSEARCH_STATUS = "called_no_results"
+    else:
         LAST_ANYSEARCH_STATUS = "failed"
-        return []
 
-    results = parse_anysearch_results(data)
-    items: list[ReportItem] = []
-    for index, result_group in enumerate(results):
-        category = categories[index] if index < len(categories) else "technology"
-        group_items = result_group.get("items", result_group.get("results", [])) if isinstance(result_group, dict) else []
-        for entry in group_items[:max_results]:
-            title = entry.get("title", "").strip()
-            url = entry.get("url", entry.get("link", "")).strip()
-            if not title or not url:
-                continue
-            summary = entry.get("snippet", entry.get("summary", "")).strip()
-            if not summary:
-                summary = extract_page_summary(url)
-            items.append(
-                ReportItem(
-                    title=title,
-                    url=url,
-                    source=entry.get("source", "AnySearch") or "AnySearch",
-                    category=category,
-                    summary=summary,
-                    raw_text=summary,
-                    metadata={"provider": "anysearch"},
-                )
-            )
-    LAST_ANYSEARCH_STATUS = "called" if items else "called_no_results"
+    LAST_ANYSEARCH_DIAGNOSTICS = {
+        "status": LAST_ANYSEARCH_STATUS,
+        "endpoint": endpoint,
+        "domains": search_domains,
+        "http_statuses": http_statuses,
+        "raw_response_sample": raw_response_sample,
+        "parsed_item_count": parsed_item_count,
+    }
+    logging.info(
+        "AnySearch diagnostics: endpoint=%s statuses=%s parsed_item_count=%s item_count=%s raw_response_sample=%s",
+        endpoint,
+        http_statuses,
+        parsed_item_count,
+        len(items),
+        raw_response_sample,
+    )
     return items
 
 
-def parse_anysearch_results(data: Any) -> list[Any]:
+def sample_response_text(response: requests.Response) -> str:
+    try:
+        body = response.json()
+        sample = json.dumps(body, ensure_ascii=False)
+    except ValueError:
+        sample = response.text
+    return sample[:RAW_RESPONSE_SAMPLE_LIMIT]
+
+
+def parse_anysearch_v1_results(data: Any) -> list[dict[str, Any]]:
     if isinstance(data, list):
-        return data
+        return [entry for entry in data if isinstance(entry, dict)]
     if not isinstance(data, dict):
         return []
-    result = data.get("result", data)
-    if isinstance(result, str):
-        return parse_markdown_anysearch_output(result)
-    content = result.get("content", []) if isinstance(result, dict) else []
-    for block in content:
-        if block.get("type") != "text":
-            continue
-        text = block.get("text", "")
-        try:
-            parsed = json.loads(text)
-            return parsed.get("results", parsed if isinstance(parsed, list) else [])
-        except json.JSONDecodeError:
-            return parse_markdown_anysearch_output(text)
-    return result.get("results", []) if isinstance(result, dict) else []
+
+    candidates: list[Any] = [
+        data.get("results"),
+        data.get("items"),
+        data.get("data"),
+        data.get("organic_results"),
+    ]
+    nested_data = data.get("data")
+    if isinstance(nested_data, dict):
+        candidates.extend(
+            [
+                nested_data.get("results"),
+                nested_data.get("items"),
+                nested_data.get("organic_results"),
+            ]
+        )
+
+    for candidate in candidates:
+        if isinstance(candidate, list):
+            return [entry for entry in candidate if isinstance(entry, dict)]
+    return []
 
 
-def parse_markdown_anysearch_output(text: str) -> list[dict[str, list[dict[str, str]]]]:
-    groups: list[dict[str, list[dict[str, str]]]] = []
-    current: list[str] = []
-    saw_query_heading = False
+def build_anysearch_item(entry: dict[str, Any], category: str) -> ReportItem | None:
+    title = str(entry.get("title") or entry.get("name") or "").strip()
+    url = str(entry.get("url") or entry.get("link") or entry.get("href") or "").strip()
+    if not title or not url:
+        return None
 
-    def append_current_group() -> None:
-        parsed_items = parse_markdown_search_results("\n".join(current))
-        if parsed_items:
-            groups.append({"items": parsed_items})
+    summary = str(
+        entry.get("snippet")
+        or entry.get("summary")
+        or entry.get("description")
+        or entry.get("content")
+        or ""
+    ).strip()
+    if not summary:
+        summary = extract_page_summary(url)
 
-    for line in text.splitlines():
-        if re.match(r"^##\s+Query\s+\d+:", line.strip(), flags=re.IGNORECASE):
-            saw_query_heading = True
-            if current:
-                append_current_group()
-                current = []
-            continue
-        current.append(line)
-
-    if current:
-        append_current_group()
-    if saw_query_heading:
-        return groups
-    return [{"items": parse_markdown_search_results(text)}]
-
-
-def parse_markdown_search_results(text: str) -> list[dict[str, str]]:
-    items: list[dict[str, str]] = []
-    current: dict[str, str] | None = None
-
-    def flush_current() -> None:
-        nonlocal current
-        if current and current.get("title") and current.get("url"):
-            items.append(current)
-        current = None
-
-    for line in text.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        markdown_link = re.search(r"\[([^\]]+)\]\((https?://[^)]+)\)", line)
-        if markdown_link:
-            items.append({"title": markdown_link.group(1).strip(), "url": markdown_link.group(2).strip(), "summary": ""})
-            continue
-        heading = re.match(r"^###\s+\d+\.\s+(.+)$", line)
-        if heading:
-            flush_current()
-            current = {"title": heading.group(1).strip(), "url": "", "summary": ""}
-            continue
-        if current and line.startswith("- **URL**:"):
-            current["url"] = line.split(":", 1)[1].strip()
-            continue
-        if current and line.startswith("- ") and not current.get("summary"):
-            current["summary"] = line[2:].strip()
-
-    flush_current()
-    return items
+    source = str(
+        entry.get("source")
+        or entry.get("source_name")
+        or entry.get("domain")
+        or "AnySearch"
+    ).strip() or "AnySearch"
+    return ReportItem(
+        title=title,
+        url=url,
+        source=source,
+        category=category,
+        summary=summary,
+        raw_text=summary,
+        metadata={"provider": "anysearch"},
+    )
