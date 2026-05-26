@@ -3,7 +3,8 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from collectors.search import ReportItem, dedupe_items, filter_recent, score_item
+from agents.daily_agent import append_daily_push_archive, has_successful_push
+from collectors.search import ReportItem, dedupe_items, filter_recent, parse_markdown_anysearch_output, score_item
 from renderers.report import render_html, render_markdown
 from summarizers.llm import load_provider_config, template_summary
 
@@ -107,3 +108,54 @@ providers:
     assert switched_config["api_key"] == "second-key"
     assert switched_config["base_url"] == "https://second.example.com"
     assert switched_config["model"] == "second-model"
+
+
+def test_anysearch_markdown_batch_output_is_parsed_by_query_group() -> None:
+    text = """
+## Query 1: refrigerator AI
+
+## Search Results (1 result)
+
+### 1. AI Energy Mode refrigerator
+- **URL**: https://example.com/ai-energy
+- Smart compressor and defrost control.
+
+---
+
+## Query 2: refrigerator patent
+
+## Search Results (1 result)
+
+### 1. Refrigerator control method
+- **URL**: https://example.com/patent
+- Compressor patent summary.
+"""
+
+    groups = parse_markdown_anysearch_output(text)
+
+    assert len(groups) == 2
+    assert groups[0]["items"][0]["title"] == "AI Energy Mode refrigerator"
+    assert groups[0]["items"][0]["url"] == "https://example.com/ai-energy"
+    assert groups[1]["items"][0]["summary"] == "Compressor patent summary."
+
+
+def test_daily_push_archive_records_success_marker(tmp_path: Path) -> None:
+    archive_path = tmp_path / "daily_push_log.md"
+
+    append_daily_push_archive(
+        markdown_text="# Report\n\nBody",
+        report_date="2026-05-26",
+        generated_at=datetime(2026, 5, 26, 8, 30, 0),
+        email_status="sent",
+        item_count=2,
+        archive_path=archive_path,
+        md_path=tmp_path / "report.md",
+        html_path=tmp_path / "report.html",
+        json_path=tmp_path / "report.json",
+        diagnostics={"sources": {"anysearch": 1}, "statuses": {"anysearch": "called", "llm": "called"}},
+    )
+
+    content = archive_path.read_text(encoding="utf-8")
+    assert "## 2026-05-26 推送记录" in content
+    assert "### 可补充备注" in content
+    assert has_successful_push("2026-05-26", archive_path)

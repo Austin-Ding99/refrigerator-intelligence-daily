@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from difflib import SequenceMatcher
@@ -82,6 +83,8 @@ MARKET_TERMS = {
     "铝",
     "钢",
 }
+
+LAST_ANYSEARCH_STATUS = "not_run"
 
 
 @dataclass
@@ -205,13 +208,19 @@ def extract_page_summary(url: str) -> str:
         return ""
 
 
-def anysearch_batch_search(queries: dict[str, str], max_results: int = 5) -> list[ReportItem]:
-    api_key = os.getenv("ANYSEARCH_API_KEY", "")
-    if not api_key:
-        logging.info("ANYSEARCH_API_KEY is not set; skipping AnySearch batch search.")
-        return []
+def get_anysearch_status() -> str:
+    return LAST_ANYSEARCH_STATUS
 
+
+def anysearch_batch_search(queries: dict[str, str], max_results: int = 5) -> list[ReportItem]:
+    global LAST_ANYSEARCH_STATUS
+
+    api_key = os.getenv("ANYSEARCH_API_KEY", "")
     endpoint = os.getenv("ANYSEARCH_ENDPOINT", "https://api.anysearch.com/mcp")
+    LAST_ANYSEARCH_STATUS = "called_with_key" if api_key else "called_anonymous"
+    if not api_key:
+        logging.info("ANYSEARCH_API_KEY is not set; trying AnySearch anonymous access.")
+
     payload = {
         "jsonrpc": "2.0",
         "id": 1,
@@ -239,6 +248,7 @@ def anysearch_batch_search(queries: dict[str, str], max_results: int = 5) -> lis
         data = response.json()
     except Exception as exc:  # noqa: BLE001
         logging.warning("AnySearch batch search failed: %s", exc)
+        LAST_ANYSEARCH_STATUS = "failed"
         return []
 
     results = parse_anysearch_results(data)
@@ -265,6 +275,7 @@ def anysearch_batch_search(queries: dict[str, str], max_results: int = 5) -> lis
                     metadata={"provider": "anysearch"},
                 )
             )
+    LAST_ANYSEARCH_STATUS = "called" if items else "called_no_results"
     return items
 
 
@@ -274,6 +285,8 @@ def parse_anysearch_results(data: Any) -> list[Any]:
     if not isinstance(data, dict):
         return []
     result = data.get("result", data)
+    if isinstance(result, str):
+        return parse_markdown_anysearch_output(result)
     content = result.get("content", []) if isinstance(result, dict) else []
     for block in content:
         if block.get("type") != "text":
@@ -283,19 +296,64 @@ def parse_anysearch_results(data: Any) -> list[Any]:
             parsed = json.loads(text)
             return parsed.get("results", parsed if isinstance(parsed, list) else [])
         except json.JSONDecodeError:
-            return [{"items": parse_markdown_search_results(text)}]
+            return parse_markdown_anysearch_output(text)
     return result.get("results", []) if isinstance(result, dict) else []
+
+
+def parse_markdown_anysearch_output(text: str) -> list[dict[str, list[dict[str, str]]]]:
+    groups: list[dict[str, list[dict[str, str]]]] = []
+    current: list[str] = []
+    saw_query_heading = False
+
+    def append_current_group() -> None:
+        parsed_items = parse_markdown_search_results("\n".join(current))
+        if parsed_items:
+            groups.append({"items": parsed_items})
+
+    for line in text.splitlines():
+        if re.match(r"^##\s+Query\s+\d+:", line.strip(), flags=re.IGNORECASE):
+            saw_query_heading = True
+            if current:
+                append_current_group()
+                current = []
+            continue
+        current.append(line)
+
+    if current:
+        append_current_group()
+    if saw_query_heading:
+        return groups
+    return [{"items": parse_markdown_search_results(text)}]
 
 
 def parse_markdown_search_results(text: str) -> list[dict[str, str]]:
     items: list[dict[str, str]] = []
+    current: dict[str, str] | None = None
+
+    def flush_current() -> None:
+        nonlocal current
+        if current and current.get("title") and current.get("url"):
+            items.append(current)
+        current = None
+
     for line in text.splitlines():
         line = line.strip()
-        if "](" not in line or "http" not in line:
+        if not line:
             continue
-        start = line.find("[")
-        mid = line.find("](", start)
-        end = line.find(")", mid)
-        if start >= 0 and mid > start and end > mid:
-            items.append({"title": line[start + 1 : mid], "url": line[mid + 2 : end], "summary": ""})
+        markdown_link = re.search(r"\[([^\]]+)\]\((https?://[^)]+)\)", line)
+        if markdown_link:
+            items.append({"title": markdown_link.group(1).strip(), "url": markdown_link.group(2).strip(), "summary": ""})
+            continue
+        heading = re.match(r"^###\s+\d+\.\s+(.+)$", line)
+        if heading:
+            flush_current()
+            current = {"title": heading.group(1).strip(), "url": "", "summary": ""}
+            continue
+        if current and line.startswith("- **URL**:"):
+            current["url"] = line.split(":", 1)[1].strip()
+            continue
+        if current and line.startswith("- ") and not current.get("summary"):
+            current["summary"] = line[2:].strip()
+
+    flush_current()
     return items

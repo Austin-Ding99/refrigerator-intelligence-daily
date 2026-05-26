@@ -23,6 +23,7 @@ config/llm_providers.yaml      # OpenAI-compatible provider 配置
 prompts/daily_summary.md       # LLM 总结提示词
 outputs/                       # 每日报告输出
 logs/                          # 每日运行日志
+daily_push_log.md              # 每天实际推送内容的可同步 Markdown 档案
 ```
 
 ## 环境变量
@@ -47,10 +48,14 @@ SMTP_SERVER=
 SMTP_PORT=587
 SMTP_USER=
 SMTP_PASSWORD=
+SMTP_USE_SSL=
+SMTP_USE_TLS=true
+EMAIL_FROM=
 EMAIL_TO=haoshi@tju.edu.cn
+DAILY_PUSH_LOG_PATH=daily_push_log.md
 ```
 
-`ANYSEARCH_API_KEY` 可为空；为空时跳过 AnySearch，只使用 RSS 和固定网页源。日报顶部的“运行状态”会明确显示 AnySearch 是否实际执行、返回多少条结果，以及 LLM 是否被调用。
+`ANYSEARCH_API_KEY` 可为空；为空时会尝试 AnySearch 匿名访问。日报顶部的“运行状态”会明确显示 AnySearch 是否实际执行、返回多少条结果，以及 LLM 是否被调用。
 
 如果 AnySearch 服务地址不是默认值，可配置：
 
@@ -124,10 +129,10 @@ logs/daily_report_YYYY-MM-DD.log
 定时：
 
 ```text
-30 0 * * *
+25,30,40,55 0 * * *
 ```
 
-即北京时间每天 08:30。
+GitHub Actions 会在北京时间 08:25、08:30、08:40、08:55 尝试触发；08:25 提前触发时脚本会等到 08:30 再运行，后续触发只作为补跑，并通过 `daily_push_log.md` 避免当天重复发信。GitHub 的 schedule 仍是尽力触发机制，不能保证秒级准点。
 
 需要在 GitHub 仓库 Secrets 中配置：
 
@@ -143,8 +148,13 @@ SMTP_SERVER
 SMTP_PORT
 SMTP_USER
 SMTP_PASSWORD
+SMTP_USE_SSL
+SMTP_USE_TLS
+EMAIL_FROM
 EMAIL_TO
 ```
+
+每天运行后，工作流会把 `daily_push_log.md` 提交回仓库。下次本地同步 GitHub 时，这个 Markdown 档案会一起拉取下来，后续可以继续在日期条目下补充备注。
 
 ## 评分与过滤
 

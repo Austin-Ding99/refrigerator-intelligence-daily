@@ -2,17 +2,28 @@ name: Daily Refrigerator AI Report
 
 on:
   schedule:
-    - cron: "30 0 * * *"
+    - cron: "25,30,40,55 0 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-report-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   daily-report:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      TZ: Asia/Shanghai
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,14 +41,18 @@ jobs:
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
-          ANYSEARCH_API_KEY: ${{ secrets.ANYSEARCH_API_KEY }}
+          ANYSEARCH_API_KEY: ${{ secrets.ANYSEARCH_API_KEY || secrets.ANY_SEARCH_API_KEY || secrets.ANYSEARCH_KEY }}
           ANYSEARCH_ENDPOINT: ${{ secrets.ANYSEARCH_ENDPOINT }}
           SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_USE_SSL: ${{ secrets.SMTP_USE_SSL }}
+          SMTP_USE_TLS: ${{ secrets.SMTP_USE_TLS }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
-        run: python main.py --send-email
+          DAILY_PUSH_LOG_PATH: daily_push_log.md
+        run: python main.py --send-email --target-time 08:30 --sleep-until-target --skip-if-sent
 
       - name: Upload report artifacts
         if: always()
@@ -47,3 +62,18 @@ jobs:
           path: |
             outputs/
             logs/
+            daily_push_log.md
+
+      - name: Commit daily push log
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add daily_push_log.md
+          if git diff --cached --quiet; then
+            echo "No daily push log changes to commit."
+          else
+            git commit -m "Archive daily refrigerator report"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          fi

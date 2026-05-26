@@ -72,8 +72,16 @@ def render_diagnostics(diagnostics: dict) -> list[str]:
 def format_anysearch_status(status: str | None, count: int) -> str:
     if status == "not_configured":
         return "未配置 ANYSEARCH_API_KEY，未执行搜索"
+    if status == "called_with_key":
+        return f"已使用 API key 执行 batch_search，返回 {count} 条"
+    if status == "called_anonymous":
+        return f"已匿名执行 batch_search，返回 {count} 条"
     if status == "called":
         return f"已执行 batch_search，返回 {count} 条"
+    if status == "called_no_results":
+        return "已执行 batch_search，但未返回可用结果；详见日志"
+    if status == "failed":
+        return "batch_search 调用失败；详见日志"
     if status == "called_no_results_or_failed":
         return "已尝试执行 batch_search，但未返回可用结果；详见日志"
     return "状态未知"
