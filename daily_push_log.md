@@ -131,3 +131,73 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-05-28 20:54:08 北京时间
+
+<!-- daily-push:2026-05-29 status=sent generated_at=2026-05-29T20:29:45.511921+08:00 -->
+## 2026-05-29 推送记录
+
+- 生成时间：2026-05-29 20:29:45 北京时间
+- 邮件状态：sent
+- 收录条目：4
+- AnySearch：called，parsed 20 条，retained 4 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：called
+- 输出文件：`outputs/daily_report_2026-05-29.md` / `outputs/daily_report_2026-05-29.html` / `outputs/daily_report_2026-05-29.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-05-29
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 4 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "data": {"results": [{"title": "Effect of Vacuum Insulation Panels on Energy Consumption and Thermal Load Transfer between Compartments in a Three-Temperature Frost-Free Refrigerator", "url": "https://www.mdpi.com/1996-1073/13/7/1559", "description": "", "content": "The three-temperature frost-free refrigerator is popular in China currently, which adopts a single evaporator and separate air ducts to distribute cold air into all compartments, i.e., the fresh food`
+- 过滤结果：原始 60 条，保留 4 条
+- AI总结：已调用模型生成摘要
+
+---
+
+## 1. 最新技术
+
+### Samsung Unveils New Refrigerators With Innovative AI Hybrid Cooling Technology at CES 2025
+- 摘要：Samsung announced new refrigerators with AI Hybrid Cooling technology, combining a compressor with a Peltier module and AI algorithm for efficient cooling, longer food preservation, and increased internal space.
+- 行业影响：This innovation sets a new standard for energy efficiency and food preservation in home refrigeration, potentially influencing future product designs across the industry.
+- 来源：[Samsung Newsroom](https://news.samsung.com/us/samsung-unveils-new-refrigerators-innovative-ai-hybrid-cooling-technology-ces-2025)
+
+### BluRoX – Discover freezers with vacuum insulation technology
+- 摘要：Liebherr introduces BluRoX vacuum perlite insulation technology for freezers, offering top energy efficiency class A, up to 30% more storage, and a circular design with Cradle to Cradle Certified® Bronze.
+- 行业影响：This technology could revolutionize freezer insulation, significantly reducing energy consumption and enabling more sustainable appliance design.
+- 来源：[Liebherr](https://www.liebherr.com/en-gb/fridges-freezers/blurox-vacuum-perlite-insulation-3011725)
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+### Direct cooling refrigerator capable of performing automatic defrosting
+- 专利号：CN104344645A
+- 公司：Haier Group Corp / Qingdao Haier Co Ltd
+- 核心创新：Automatic defrosting without manual intervention, saving labor and improving convenience.
+- 行业影响：Enhances user convenience and energy efficiency in direct cooling refrigerators.
+- 来源：[Google Patents](https://patents.google.com/patent/CN104344645A/en)
+
+## 4. 市场行情
+
+### India Caps AC Compressor Imports by 70%: What It Means for Your Summer Bill
+- 趋势：India caps compressor imports for ACs and refrigerators to boost domestic manufacturing, creating supply gaps and potential price increases for consumers.
+- 行业影响：Short-term price pressure on cooling appliances; long-term push for domestic manufacturing under PLI scheme.
+- 来源：[Beats in Brief](https://beatsinbrief.com/2026/05/18/india-ac-compressor-imports-cap-price-impact/)
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-05-29 20:29:45 北京时间
