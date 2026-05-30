@@ -201,3 +201,86 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-05-29 20:29:45 北京时间
+
+<!-- daily-push:2026-05-30 status=sent generated_at=2026-05-30T17:06:10.121171+08:00 -->
+## 2026-05-30 推送记录
+
+- 生成时间：2026-05-30 17:06:10 北京时间
+- 邮件状态：sent
+- 收录条目：7
+- AnySearch：called，parsed 20 条，retained 7 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：called
+- 输出文件：`outputs/daily_report_2026-05-30.md` / `outputs/daily_report_2026-05-30.html` / `outputs/daily_report_2026-05-30.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-05-30
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 7 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "data": {"results": [{"title": "Effect of Vacuum Insulation Panels on Energy Consumption and Thermal Load Transfer between Compartments in a Three-Temperature Frost-Free Refrigerator", "url": "https://www.mdpi.com/1996-1073/13/7/1559", "description": "", "content": "The three-temperature frost-free refrigerator is popular in China currently, which adopts a single evaporator and separate air ducts to distribute cold air into all compartments, i.e., the fresh food`
+- 过滤结果：原始 60 条，保留 7 条
+- AI总结：已调用模型生成摘要
+
+---
+
+## 1. 最新技术
+
+### Samsung Unveils New Refrigerators With Innovative AI Hybrid Cooling Technology at CES 2025
+- 摘要：Samsung introduced AI Hybrid Cooling technology combining a compressor with a Peltier module, activated by AI algorithm when high cooling demand is detected, improving energy efficiency and food preservation.
+- 行业影响：Enables longer food freshness, larger internal capacity, and efficient energy use, setting a new standard for smart refrigeration.
+- 来源：[Samsung Newsroom](https://news.samsung.com/us/samsung-unveils-new-refrigerators-innovative-ai-hybrid-cooling-technology-ces-2025)
+
+### Effect of Vacuum Insulation Panels on Energy Consumption and Thermal Load Transfer between Compartments in a Three-Temperature Frost-Free Refrigerator
+- 摘要：Study shows VIPs reduce steady-state energy consumption by 12.4% but cause thermal load transfer from fresh food to freezer compartment due to altered air circulation.
+- 行业影响：Provides design insights for optimizing VIP placement to maximize energy savings without compromising compartment temperatures.
+- 来源：[MDPI Energies](https://www.mdpi.com/1996-1073/13/7/1559)
+
+## 2. AI赋能应用
+
+### Digital twin-based predictive maintenance in cold chain logistics
+- 能力：Predictive maintenance, real-time monitoring, multi-objective optimization
+- 应用场景：Cold chain logistics for temperature-sensitive products
+- 来源：[RAIRO Operations Research](https://www.rairo-ro.org/articles/ro/pdf/2026/01/ro250500.pdf)
+
+### Intelligent Control Based on Usage Habits in a Domestic Refrigerator with Variable Speed Compressor for Energy-Saving
+- 能力：Fuzzy logic control, usage habit adaptation
+- 应用场景：Domestic refrigerator energy management
+- 来源：[MDPI Applied Sciences](https://www.mdpi.com/2571-8797/6/2/28)
+
+### Data-Driven Detection and Prediction of Refrigeration Equipment Failures Using Rough Sets Theory and the Internet of Things
+- 能力：Fault detection and prediction, IoT data collection, rough set decision-making
+- 应用场景：Commercial refrigeration equipment monitoring
+- 来源：[MDPI Processes](https://www.mdpi.com/2227-9717/13/11/3618)
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+### Refrigerator Compressor Market Size & Growth to 2031
+- 趋势：Shift to variable-speed inverter compressors, natural refrigerants, and reshoring to North America/Europe.
+- 行业影响：Inverter compressors expected to grow at 6.85% CAGR; regulatory push for low-GWP refrigerants accelerates technology transition.
+- 来源：[Mordor Intelligence](https://www.mordorintelligence.com/industry-reports/refrigerator-compressor-market)
+
+### An assessment of the global cooling supply chain and implications for critical minerals
+- 趋势：Geopolitical tensions and critical mineral concentration drive need for supply chain diversification.
+- 行业影响：Opportunities for U.S. and India to develop domestic inverter compressor and low-GWP refrigerant manufacturing, reducing import dependence.
+- 来源：[Lawrence Berkeley National Laboratory](https://eta-publications.lbl.gov/sites/default/files/2025-06/global_room_ac_supply_chain_and_critical_minerals_lbnl_report_0.pdf)
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-05-30 17:06:10 北京时间
