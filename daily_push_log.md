@@ -284,3 +284,71 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-05-30 17:06:10 北京时间
+
+<!-- daily-push:2026-05-31 status=sent generated_at=2026-05-31T18:00:58.355375+08:00 -->
+## 2026-05-31 推送记录
+
+- 生成时间：2026-05-31 18:00:58 北京时间
+- 邮件状态：sent
+- 收录条目：4
+- AnySearch：called，parsed 20 条，retained 4 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：called
+- 输出文件：`outputs/daily_report_2026-05-31.md` / `outputs/daily_report_2026-05-31.html` / `outputs/daily_report_2026-05-31.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-05-31
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 4 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "data": {"results": [{"title": "Effect of Vacuum Insulation Panels on Energy Consumption and Thermal Load Transfer between Compartments in a Three-Temperature Frost-Free Refrigerator", "url": "https://www.mdpi.com/1996-1073/13/7/1559", "description": "", "content": "The three-temperature frost-free refrigerator is popular in China currently, which adopts a single evaporator and separate air ducts to distribute cold air into all compartments, i.e., the fresh food`
+- 过滤结果：原始 60 条，保留 4 条
+- AI总结：已调用模型生成摘要
+
+---
+
+## 1. 最新技术
+
+### Samsung Unveils New Refrigerators With Innovative AI Hybrid Cooling Technology at CES 2025
+- 摘要：Innovative refrigerator revolutionizes the way of cooling with the Peltier module, which contributes to efficient energy use with AI algorithm, longer food preservation and more internal space.
+- 行业影响：The AI Hybrid Cooling technology combines a compressor with a Peltier module, enabling efficient cooling on demand, reducing energy consumption, and increasing internal capacity by 25 liters. This could set a new standard for energy-efficient and space-optimized refrigerators.
+- 来源：[Samsung Newsroom](https://news.samsung.com/us/samsung-unveils-new-refrigerators-innovative-ai-hybrid-cooling-technology-ces-2025)
+
+### Effect of Vacuum Insulation Panels on Energy Consumption and Thermal Load Transfer between Compartments in a Three-Temperature Frost-Free Refrigerator
+- 摘要：Study shows that vacuum insulation panels (VIPs) reduce steady-state energy consumption by 12.4% but cause thermal load transfer from the fresh food compartment to the freezer compartment.
+- 行业影响：VIPs improve insulation but may lead to uneven temperature distribution, requiring careful design to avoid increased freezer load. This informs future insulation strategies for multi-compartment refrigerators.
+- 来源：[MDPI Energies](https://www.mdpi.com/1996-1073/13/7/1559)
+
+## 2. AI赋能应用
+
+### Data-Driven Detection and Prediction of Refrigeration Equipment Failures Using Rough Sets Theory and the Internet of Things
+- 能力：Fault detection and prediction using rough set theory and IoT data collection, achieving 76-90% accuracy for fan, compressor, and controller faults.
+- 应用场景：Commercial refrigeration, especially for pharmaceutical storage where early fault detection is critical to prevent spoilage.
+- 来源：[MDPI Processes](https://www.mdpi.com/2227-9717/13/11/3618)
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+### An assessment of the global cooling supply chain and implications for critical minerals
+- 趋势：Report analyzes global room AC supply chain dominance by China, vulnerabilities in critical minerals (rare earths, copper, aluminum), and opportunities for U.S.-India collaboration to diversify manufacturing.
+- 行业影响：Highlights need for supply chain diversification to reduce dependence on China for inverter compressors, heat exchangers, and low-GWP refrigerants, affecting future manufacturing strategies and trade policies.
+- 来源：[Lawrence Berkeley National Laboratory](https://eta-publications.lbl.gov/sites/default/files/2025-06/global_room_ac_supply_chain_and_critical_minerals_lbnl_report_0.pdf)
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-05-31 18:00:58 北京时间
