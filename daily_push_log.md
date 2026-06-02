@@ -352,3 +352,76 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-05-31 18:00:58 北京时间
+
+<!-- daily-push:2026-06-02 status=sent generated_at=2026-06-02T21:02:35.725594+08:00 -->
+## 2026-06-02 推送记录
+
+- 生成时间：2026-06-02 21:02:35 北京时间
+- 邮件状态：sent
+- 收录条目：6
+- AnySearch：called，parsed 20 条，retained 6 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：called
+- 输出文件：`outputs/daily_report_2026-06-02.md` / `outputs/daily_report_2026-06-02.html` / `outputs/daily_report_2026-06-02.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-06-02
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 6 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "data": {"results": [{"title": "Effect of Vacuum Insulation Panels on Energy Consumption and Thermal Load Transfer between Compartments in a Three-Temperature Frost-Free Refrigerator", "url": "https://www.mdpi.com/1996-1073/13/7/1559", "description": "", "content": "The three-temperature frost-free refrigerator is popular in China currently, which adopts a single evaporator and separate air ducts to distribute cold air into all compartments, i.e., the fresh food`
+- 过滤结果：原始 60 条，保留 6 条
+- AI总结：已调用模型生成摘要
+
+---
+
+## 1. 最新技术
+
+### Samsung Unveils New Refrigerators With Innovative AI Hybrid Cooling Technology at CES 2025
+- 摘要：Innovative refrigerator revolutionizes the way of cooling with the Peltier module, which contributes to efficient energy use with AI algorithm, longer food preservation and more internal space. Samsung Electronics Co., Ltd. today announced it will unveil the new refrigerators with AI Hybrid Cooling technology at CES 2025, which will be ready to expand into global markets this year. These new refrigerators introduce AI Hybrid Cooling technology, which combines artificial intelligence with innovative cooling methods to meet the diverse needs of modern households. The AI Hybrid Cooling technology combines a highly efficient compressor with a Peltier module, which is a semiconductor device that achieves cooling by harnessing the temperature change arising from the flow of electric current. The introduction of the Peltier module enables the refrigerator to function like a hybrid car, by using two power sources together only when needed to efficiently cool the inside of the fridge. For instance, when significant cooling demand is detected or anticipated — like when many items are added at once after grocery shopping, or when storing hot food or if it’s the hot summer season — the refrigerator activates the Peltier module alongside the compressor. In normal use, however, it relies solely on the compressor to ensure optimal efficiency. During the process, the AI algorithm detects the current status of the refrigerator and predicts temperature changes inside the fridge to properly adjust the cooling mode. The high-efficiency AI Inverter Compressor also contributes to the efficient use of energy, thanks to an enhanced design that increases the radius of its rotating components. With 4.1 times greater inertia compared to Samsung’s conventional F3 compressor, it operates longer while using less energy. Leveraging an AI algorithm, the compressor dynamically optimizes its speed. The AI Hybrid Cooling technology enhances freshness for perishable foods with Hybrid Precise Cooling, which reduces internal temperature fluctuations in the fridge when activated — even during the device’s automatic defrost cycles. Since it leverages residual heat from its Peltier module during the defrosting process, it reduces the chance of excessive temperature fluctuations that can compromise food quality. As a result, the food ingredients can be kept fresher and longer. Tests show that when the Hybrid Precise Cooling is turned on, fresh foods such as pork and salmon can last by up to 1.4 times and 1.2 times respectively, compared to when it is turned off. The refrigerators featuring AI Hybrid Cooling technology redefine space efficiency with an impressive 900-liter capacity, offering enhanced usability while maintaining the same external dimensions. By replacing traditional heating elements with a Peltier module, it better utilizes interior space, resulting in a 25-liter increase in internal capacity. This allows for 60mm deeper shelves and a 13.8% larger loadable area, accommodating up to 240 beverage cans — 24 more than conventional models.
+- 行业影响：This technology represents a significant advancement in refrigerator cooling efficiency and food preservation. By combining AI with a Peltier module and inverter compressor, it reduces energy consumption, improves temperature stability, and increases internal capacity. This could set a new standard for high-end refrigerators and drive competition in the industry.
+- 来源：[AnySearch](https://news.samsung.com/us/samsung-unveils-new-refrigerators-innovative-ai-hybrid-cooling-technology-ces-2025)
+
+### Effect of Vacuum Insulation Panels on Energy Consumption and Thermal Load Transfer between Compartments in a Three-Temperature Frost-Free Refrigerator
+- 摘要：The three-temperature frost-free refrigerator is popular in China currently, which adopts a single evaporator and separate air ducts to distribute cold air into all compartments, i.e., the fresh food compartment (FFC), the variable temperature compartment (VTC), and the freezer compartment (FZC). Two identical refrigerators with cyclopentane insulation are comparatively studied in this article, one with vacuum insulation panels (VIPs) in two sidewalls and the other without. Results show that VIPs reduce the steady-state energy consumption of the refrigerator by 12.4% due to smaller average power input and longer compressor-off duration. The decrease in average power input originates from a shorter FFC-damper-on duration since VIPs reduce its thermal load. However, the FFC average temperature rises unexpectedly with shorter damper-on and longer damper-off durations, and induces thermal load transfer from FFC to FZC through the mixing of return air in the evaporator chamber. Consequently, FZC-only duration increases and compensates for the decrease in FFC-damper-on duration, resulting in an overall similar compressor-on duration. Simulation results of the heat transfer process through the evaporator are also provided in both cases to obtain a full view of the thermal load transfer process.
+- 行业影响：This study highlights the trade-offs of using VIPs in multi-compartment refrigerators. While VIPs reduce overall energy consumption, they can cause thermal load transfer between compartments, potentially affecting temperature uniformity. This insight is important for refrigerator designers to optimize insulation placement and airflow management.
+- 来源：[AnySearch](https://www.mdpi.com/1996-1073/13/7/1559)
+
+## 2. AI赋能应用
+
+### Data-Driven Detection and Prediction of Refrigeration Equipment Failures Using Rough Sets Theory and the Internet of Things
+- 能力：Fault detection and prediction using rough set theory and IoT data collection.
+- 应用场景：Predictive maintenance for commercial refrigeration equipment, such as in supermarkets or cold storage, to reduce downtime and repair costs.
+- 来源：[AnySearch](https://www.mdpi.com/2227-9717/13/11/3618)
+
+## 3. 最新专利
+
+### Systems and methods of operating refrigerator appliances
+- 专利号：US20230349625A1
+- 公司：Haier US Appliance Solutions, Inc.
+- 核心创新：Constant operation of a heater within the wall to prevent condensation in side-by-side refrigerator configurations, eliminating the need for separate external heaters.
+- 行业影响：This innovation reduces consumer and manufacturing costs by integrating anti-condensation heating into the cabinet wall, improving reliability and aesthetics of built-in side-by-side refrigerators.
+- 来源：[AnySearch](https://www.patents-review.com/a/20230349625-systems-methods-operating-refrigerator-appliances.html)
+
+## 4. 市场行情
+
+### An assessment of the global cooling supply chain and implications for critical minerals
+- 趋势：Growing demand for efficient cooling is straining electricity grids, and supply chain concentration in China poses risks. There is a push for diversification and local manufacturing in the U.S. and India.
+- 行业影响：This analysis highlights the need for strategic investments in domestic manufacturing of key components and critical minerals to reduce dependence on China. It could influence policy and industry decisions regarding cooling equipment production and energy security.
+- 来源：[AnySearch](https://eta-publications.lbl.gov/sites/default/files/2025-06/global_room_ac_supply_chain_and_critical_minerals_lbnl_report_0.pdf)
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-06-02 21:02:35 北京时间
