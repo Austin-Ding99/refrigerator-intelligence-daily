@@ -46,6 +46,7 @@ def run_daily_report(
     send_email: bool = False,
     target_time: str | None = None,
     sleep_until_target: bool = False,
+    send_window_minutes: int = 0,
     skip_if_sent: bool = False,
     force_send: bool = False,
 ) -> dict:
@@ -73,13 +74,30 @@ def run_daily_report(
         now = datetime.now(BEIJING_TZ)
         report_date = now.strftime("%Y-%m-%d")
 
+    if send_email and not dry_run and target_time and send_window_minutes > 0:
+        if not is_inside_send_window(now, target_time, send_window_minutes):
+            logging.warning(
+                "Current time is outside send window %s + %s minutes; email skipped.",
+                target_time,
+                send_window_minutes,
+            )
+            return {
+                "date": report_date,
+                "items": 0,
+                "markdown": "",
+                "html": "",
+                "json": "",
+                "daily_push_log": str(archive_path),
+                "email_status": "skipped_outside_send_window",
+            }
+
     config = load_sources()
     raw_items = collect_all_items(config)
     logging.info("Collected %s raw items", len(raw_items))
     source_counts = count_items_by_provider(raw_items)
 
     naive_now = now.replace(tzinfo=None)
-    recent_items = filter_recent(raw_items, naive_now, hours=24, patent_days=7)
+    recent_items = filter_recent(raw_items, naive_now, hours=24, require_timestamp=True)
     scored_items = [
         score_item(item, config.get("trusted_sources", {}))
         for item in recent_items
@@ -150,6 +168,22 @@ def wait_until_target_time(target_time: str) -> None:
 
     logging.info("Started before target time %s; sleeping %s seconds.", target_time, wait_seconds)
     time.sleep(wait_seconds)
+
+
+def is_inside_send_window(now: datetime, target_time: str, window_minutes: int) -> bool:
+    match = re.fullmatch(r"(\d{1,2}):(\d{2})", target_time.strip())
+    if not match:
+        logging.warning("Invalid --target-time value %r; send window check ignored.", target_time)
+        return True
+
+    hour, minute = int(match.group(1)), int(match.group(2))
+    if not (0 <= hour <= 23 and 0 <= minute <= 59):
+        logging.warning("Invalid --target-time value %r; send window check ignored.", target_time)
+        return True
+
+    window_start = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    window_end = window_start + timedelta(minutes=window_minutes)
+    return window_start <= now <= window_end
 
 
 def has_successful_push(report_date: str, archive_path: Path) -> bool:

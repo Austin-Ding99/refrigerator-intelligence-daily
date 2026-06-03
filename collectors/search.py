@@ -3,11 +3,14 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 from difflib import SequenceMatcher
+from email.utils import parsedate_to_datetime
 from typing import Any
 from urllib.parse import urlparse
+from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
@@ -94,6 +97,7 @@ LAST_ANYSEARCH_DIAGNOSTICS: dict[str, Any] = {
 DEFAULT_ANYSEARCH_ENDPOINT = "https://api.anysearch.com/v1/search"
 DEFAULT_ANYSEARCH_DOMAINS = ["tech"]
 RAW_RESPONSE_SAMPLE_LIMIT = 1200
+BEIJING_TZ = ZoneInfo("Asia/Shanghai")
 
 
 @dataclass
@@ -236,14 +240,21 @@ def dedupe_items(items: list[ReportItem]) -> list[ReportItem]:
     return kept
 
 
-def filter_recent(items: list[ReportItem], now: datetime, hours: int, patent_days: int = 7) -> list[ReportItem]:
+def filter_recent(
+    items: list[ReportItem],
+    now: datetime,
+    hours: int,
+    patent_days: int | None = None,
+    require_timestamp: bool = False,
+) -> list[ReportItem]:
     kept: list[ReportItem] = []
     for item in items:
         if item.published_at is None:
-            kept.append(item)
+            if not require_timestamp:
+                kept.append(item)
             continue
         age_seconds = (now - item.published_at).total_seconds()
-        max_seconds = patent_days * 86400 if item.category == "patent" else hours * 3600
+        max_seconds = patent_days * 86400 if patent_days is not None and item.category == "patent" else hours * 3600
         if 0 <= age_seconds <= max_seconds:
             kept.append(item)
     return kept
@@ -406,6 +417,81 @@ def build_anysearch_item(entry: dict[str, Any], category: str) -> ReportItem | N
         source=source,
         category=category,
         summary=summary,
+        published_at=parse_search_datetime(entry),
         raw_text=summary,
         metadata={"provider": "anysearch"},
     )
+
+
+def parse_search_datetime(entry: dict[str, Any]) -> datetime | None:
+    for field in [
+        "published_at",
+        "publishedAt",
+        "published_date",
+        "publishedDate",
+        "date",
+        "time",
+        "timestamp",
+        "updated_at",
+        "updatedAt",
+    ]:
+        value = entry.get(field)
+        parsed = parse_datetime_value(value)
+        if parsed:
+            return parsed
+    return None
+
+
+def parse_datetime_value(value: Any) -> datetime | None:
+    if value is None or value == "":
+        return None
+    if isinstance(value, datetime):
+        return normalize_datetime(value)
+    if isinstance(value, (int, float)):
+        try:
+            return datetime.fromtimestamp(float(value), tz=BEIJING_TZ).replace(tzinfo=None)
+        except (OSError, OverflowError, ValueError):
+            return None
+
+    text = str(value).strip()
+    if not text:
+        return None
+
+    relative = parse_relative_datetime(text)
+    if relative:
+        return relative
+
+    iso_text = text.replace("Z", "+00:00")
+    try:
+        return normalize_datetime(datetime.fromisoformat(iso_text))
+    except ValueError:
+        pass
+
+    try:
+        return normalize_datetime(parsedate_to_datetime(text))
+    except (TypeError, ValueError, IndexError, OverflowError):
+        return None
+
+
+def parse_relative_datetime(text: str) -> datetime | None:
+    match = re.search(r"(\d+)\s*(minute|minutes|hour|hours|day|days|year|years)\s+ago", text, flags=re.IGNORECASE)
+    if not match:
+        return None
+
+    amount = int(match.group(1))
+    unit = match.group(2).lower()
+    if unit.startswith("minute"):
+        delta = timedelta(minutes=amount)
+    elif unit.startswith("hour"):
+        delta = timedelta(hours=amount)
+    elif unit.startswith("day"):
+        delta = timedelta(days=amount)
+    else:
+        delta = timedelta(days=365 * amount)
+    return datetime.now(BEIJING_TZ).replace(tzinfo=None) - delta
+
+
+def normalize_datetime(value: datetime) -> datetime:
+    if value.tzinfo:
+        return value.astimezone(BEIJING_TZ).replace(tzinfo=None)
+    return value

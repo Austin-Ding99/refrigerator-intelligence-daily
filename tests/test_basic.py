@@ -5,7 +5,15 @@ from pathlib import Path
 from typing import Any
 
 from agents.daily_agent import append_daily_push_archive, has_successful_push
-from collectors.search import AnySearchProvider, ReportItem, dedupe_items, filter_recent, parse_anysearch_v1_results, score_item
+from collectors.search import (
+    AnySearchProvider,
+    ReportItem,
+    dedupe_items,
+    filter_recent,
+    parse_anysearch_v1_results,
+    parse_datetime_value,
+    score_item,
+)
 from renderers.report import render_html, render_markdown
 from summarizers.llm import load_provider_config, template_summary
 
@@ -21,18 +29,24 @@ def make_item(title: str, category: str = "technology", published_at: datetime |
     )
 
 
-def test_time_window_keeps_news_24h_and_patents_7d() -> None:
+def test_time_window_requires_timestamp_and_keeps_only_24h() -> None:
     now = datetime(2026, 5, 26, 8, 30, 0)
     items = [
         make_item("fresh news", "technology", now - timedelta(hours=23)),
         make_item("old news", "technology", now - timedelta(hours=25)),
-        make_item("fresh patent", "patent", now - timedelta(days=6)),
-        make_item("old patent", "patent", now - timedelta(days=8)),
+        make_item("fresh patent", "patent", now - timedelta(hours=12)),
+        make_item("old patent", "patent", now - timedelta(days=2)),
+        make_item("missing timestamp", "market", None),
     ]
 
-    kept = filter_recent(items, now, hours=24, patent_days=7)
+    kept = filter_recent(items, now, hours=24, require_timestamp=True)
 
     assert [item.title for item in kept] == ["fresh news", "fresh patent"]
+
+
+def test_anysearch_date_parser_handles_iso_and_relative_dates() -> None:
+    assert parse_datetime_value("2026-05-26T01:30:00Z") == datetime(2026, 5, 26, 9, 30, 0)
+    assert parse_datetime_value("2 years ago") is not None
 
 
 def test_dedupe_url_and_similar_title() -> None:

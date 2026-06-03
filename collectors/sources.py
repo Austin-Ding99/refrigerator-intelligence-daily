@@ -95,7 +95,7 @@ def collect_web_items(config: dict) -> list[ReportItem]:
 
 def collect_anysearch_items(config: dict) -> list[ReportItem]:
     anysearch_config = config.get("anysearch", {})
-    domains = anysearch_config.get("domains", ["web"])
+    domains = anysearch_config.get("domains", ["tech"])
     max_results = int(anysearch_config.get("max_results", 5))
     return anysearch_search_categories(config.get("category_queries", {}), max_results=max_results, domains=domains)
 

@@ -2,7 +2,7 @@ name: Daily Refrigerator AI Report
 
 on:
   schedule:
-    - cron: "25,30,40,55 0 * * *"
+    - cron: "30 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -52,7 +52,7 @@ jobs:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           DAILY_PUSH_LOG_PATH: daily_push_log.md
-        run: python main.py --send-email --target-time 08:30 --sleep-until-target --skip-if-sent
+        run: python main.py --send-email --target-time 08:30 --send-window-minutes 90 --skip-if-sent
 
       - name: Upload report artifacts
         if: always()
