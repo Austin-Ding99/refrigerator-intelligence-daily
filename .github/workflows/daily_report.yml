@@ -2,7 +2,7 @@ name: Daily Refrigerator AI Report
 
 on:
   schedule:
-    - cron: "30 0 * * *"
+    - cron: "15 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +34,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Print schedule clock
+        run: |
+          date -u
+          date
+
       - name: Run daily report
         env:
           LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
@@ -52,7 +57,12 @@ jobs:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           DAILY_PUSH_LOG_PATH: daily_push_log.md
-        run: python main.py --send-email --target-time 08:30 --send-window-minutes 90 --skip-if-sent
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            python main.py --send-email --force-send
+          else
+            python main.py --send-email --target-time 08:30 --sleep-until-target --send-window-minutes 90 --skip-if-sent
+          fi
 
       - name: Upload report artifacts
         if: always()

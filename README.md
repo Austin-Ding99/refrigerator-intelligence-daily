@@ -129,10 +129,10 @@ logs/daily_report_YYYY-MM-DD.log
 定时：
 
 ```text
-30 0 * * *
+15 0 * * *
 ```
 
-GitHub Actions 会在北京时间每天 08:30 触发。脚本只允许在 08:30 后 90 分钟内发送邮件；如果 GitHub Actions 异常延迟到更晚时间，会跳过发信，避免 17:00、20:00、21:00 这类晚间推送。
+GitHub Actions 会在北京时间每天 08:15 触发，提前安装依赖，然后脚本等待到 08:30 开始采集与发送。脚本只允许在 08:30 后 90 分钟内发送邮件；如果 GitHub Actions 异常延迟到更晚时间，会跳过发信并在 `daily_push_log.md` 记录原因，避免 17:00、20:00、21:00 这类晚间推送。手动 `workflow_dispatch` 会跳过时间窗口限制，便于人工补发或测试。
 
 需要在 GitHub 仓库 Secrets 中配置：
 

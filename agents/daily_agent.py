@@ -81,6 +81,13 @@ def run_daily_report(
                 target_time,
                 send_window_minutes,
             )
+            append_status_archive(
+                report_date=report_date,
+                generated_at=now,
+                status="skipped_outside_send_window",
+                archive_path=archive_path,
+                note=f"当前时间不在 {target_time} 后 {send_window_minutes} 分钟发送窗口内，未发送邮件。",
+            )
             return {
                 "date": report_date,
                 "items": 0,
@@ -238,6 +245,37 @@ def append_daily_push_archive(
             "### 当日推送正文",
             "",
             markdown_text.strip(),
+            "",
+        ]
+    )
+    archive_path.write_text(existing + entry, encoding="utf-8")
+    return archive_path
+
+
+def append_status_archive(
+    report_date: str,
+    generated_at: datetime,
+    status: str,
+    archive_path: Path,
+    note: str,
+) -> Path:
+    archive_path.parent.mkdir(parents=True, exist_ok=True)
+    if archive_path.exists():
+        existing = archive_path.read_text(encoding="utf-8").rstrip()
+    else:
+        existing = "# 每日推送记录\n\n这里记录每天实际生成并推送的日报内容，可在每个日期条目下继续手动补充备注。"
+
+    generated_iso = generated_at.astimezone(BEIJING_TZ).isoformat()
+    entry = "\n".join(
+        [
+            "",
+            "",
+            f"<!-- daily-push:{report_date} status={status} generated_at={generated_iso} -->",
+            f"## {report_date} 推送状态",
+            "",
+            f"- 生成时间：{generated_at.strftime('%Y-%m-%d %H:%M:%S')} 北京时间",
+            f"- 邮件状态：{status}",
+            f"- 说明：{note}",
             "",
         ]
     )
