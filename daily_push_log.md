@@ -425,3 +425,10 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-06-02 21:02:35 北京时间
+
+<!-- daily-push:2026-06-05 status=skipped_outside_send_window generated_at=2026-06-05T19:53:52.938482+08:00 -->
+## 2026-06-05 推送状态
+
+- 生成时间：2026-06-05 19:53:52 北京时间
+- 邮件状态：skipped_outside_send_window
+- 说明：当前时间不在 08:30 后 90 分钟发送窗口内，未发送邮件。
