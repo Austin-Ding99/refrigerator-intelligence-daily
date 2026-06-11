@@ -425,3 +425,45 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-06-02 21:02:35 北京时间
+
+<!-- daily-push:2026-06-05 status=skipped_outside_send_window generated_at=2026-06-05T19:53:52.938482+08:00 -->
+## 2026-06-05 推送状态
+
+- 生成时间：2026-06-05 19:53:52 北京时间
+- 邮件状态：skipped_outside_send_window
+- 说明：当前时间不在 08:30 后 90 分钟发送窗口内，未发送邮件。
+
+<!-- daily-push:2026-06-06 status=skipped_outside_send_window generated_at=2026-06-06T17:29:55.856838+08:00 -->
+## 2026-06-06 推送状态
+
+- 生成时间：2026-06-06 17:29:55 北京时间
+- 邮件状态：skipped_outside_send_window
+- 说明：当前时间不在 08:30 后 90 分钟发送窗口内，未发送邮件。
+
+<!-- daily-push:2026-06-07 status=skipped_outside_send_window generated_at=2026-06-07T18:16:26.100234+08:00 -->
+## 2026-06-07 推送状态
+
+- 生成时间：2026-06-07 18:16:26 北京时间
+- 邮件状态：skipped_outside_send_window
+- 说明：当前时间不在 08:30 后 90 分钟发送窗口内，未发送邮件。
+
+<!-- daily-push:2026-06-08 status=skipped_outside_send_window generated_at=2026-06-08T22:52:03.923409+08:00 -->
+## 2026-06-08 推送状态
+
+- 生成时间：2026-06-08 22:52:03 北京时间
+- 邮件状态：skipped_outside_send_window
+- 说明：当前时间不在 08:30 后 90 分钟发送窗口内，未发送邮件。
+
+<!-- daily-push:2026-06-09 status=skipped_outside_send_window generated_at=2026-06-09T19:48:10.225528+08:00 -->
+## 2026-06-09 推送状态
+
+- 生成时间：2026-06-09 19:48:10 北京时间
+- 邮件状态：skipped_outside_send_window
+- 说明：当前时间不在 08:30 后 90 分钟发送窗口内，未发送邮件。
+
+<!-- daily-push:2026-06-10 status=skipped_outside_send_window generated_at=2026-06-10T20:44:28.958064+08:00 -->
+## 2026-06-10 推送状态
+
+- 生成时间：2026-06-10 20:44:28 北京时间
+- 邮件状态：skipped_outside_send_window
+- 说明：当前时间不在 08:30 后 90 分钟发送窗口内，未发送邮件。
