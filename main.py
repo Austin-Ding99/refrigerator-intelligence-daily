@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 
 from agents.daily_agent import run_daily_report
 
@@ -30,7 +31,10 @@ def main() -> None:
         skip_if_sent=args.skip_if_sent,
         force_send=args.force_send,
     )
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    print(json.dumps(result, ensure_ascii=False, indent=2), flush=True)
+    if args.send_email and result.get("email_status") not in {"sent", "skipped_already_sent"}:
+        print(f"Email was not sent: {result.get('email_status')}", file=sys.stderr)
+        raise SystemExit(2)
 
 
 if __name__ == "__main__":
