@@ -126,7 +126,7 @@ logs/daily_report_YYYY-MM-DD.log
 .github/workflows/daily_report.yml
 ```
 
-GitHub 自带的 `schedule` 已停用，因为实际运行曾连续延迟 5-14 小时。现在由外部云定时器在北京时间每天 08:30 调用 `workflow_dispatch`，配置方法见 `docs/external_scheduler.md`。默认会检查当天成功记录以避免重复发送；在 GitHub Actions 手动运行时，可勾选 `force_send` 强制补发。
+系统继续使用 GitHub Actions 自带的 `schedule`，每天北京时间 08:30 请求运行。由于 GitHub 不保证定时任务准点，实际发送可能延迟；脚本不再设置发送时间窗口，因此即使 GitHub 晚启动也会继续发送，不会像之前一样因超时而跳过。默认会检查当天成功记录以避免重复发送；在 GitHub Actions 手动运行时，可勾选 `force_send` 强制补发。
 
 需要在 GitHub 仓库 Secrets 中配置：
 
