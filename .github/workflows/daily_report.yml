@@ -1,9 +1,13 @@
 name: Daily Refrigerator AI Report
 
 on:
-  schedule:
-    - cron: "15 0 * * *"
   workflow_dispatch:
+    inputs:
+      force_send:
+        description: "Ignore today's successful push marker and send again"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -58,10 +62,10 @@ jobs:
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           DAILY_PUSH_LOG_PATH: daily_push_log.md
         run: |
-          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+          if [ "${{ inputs.force_send }}" = "true" ]; then
             python main.py --send-email --force-send
           else
-            python main.py --send-email --target-time 08:30 --sleep-until-target --send-window-minutes 90 --skip-if-sent
+            python main.py --send-email --skip-if-sent
           fi
 
       - name: Upload report artifacts
