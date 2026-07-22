@@ -2352,3 +2352,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-07-21 11:56:40 北京时间
+
+<!-- daily-push:2026-07-22 status=sent generated_at=2026-07-22T11:57:43.308270+08:00 -->
+## 2026-07-22 推送记录
+
+- 生成时间：2026-07-22 11:57:43 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-07-22.md` / `outputs/daily_report_2026-07-22.html` / `outputs/daily_report_2026-07-22.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-07-22
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "b06b4c98-a7fa-444e-9663-5440522004c1", "data": {"results": [{"title": "Inside Look: Exploring Advanced Fridge Technologies", "url": "https://joy.sfmlab.com/sfmlab-news/exploring-advanced-fridge-technologies-1767648387", "snippet": "Some systems even use sensors to detect frost buildup and initiate defrost cycles only when necessary, further improving efficiency. Ultimately, smart cooling systems represent a significant advancement in refrigerator `
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-07-22 11:57:43 北京时间
