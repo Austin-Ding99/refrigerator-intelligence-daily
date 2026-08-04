@@ -3054,3 +3054,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-08-03 12:06:31 北京时间
+
+<!-- daily-push:2026-08-04 status=sent generated_at=2026-08-04T11:49:07.496273+08:00 -->
+## 2026-08-04 推送记录
+
+- 生成时间：2026-08-04 11:49:07 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-08-04.md` / `outputs/daily_report_2026-08-04.html` / `outputs/daily_report_2026-08-04.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-08-04
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "26c342ac-be4c-4097-9ac5-4f33d2c6515f", "data": {"results": [{"title": "Refrigerator - Wikipedia", "url": "https://en.wikipedia.org/wiki/Refrigerator", "snippet": "A Fast Freeze function to rapidly cool foods by running the compressor for a predetermined amount of time and thus temporarily lowering the freezer temperature below normal operating levels. It is recommended to use this feature several hours before adding more than 1 kg of unfrozen food`
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-08-04 11:49:07 北京时间
