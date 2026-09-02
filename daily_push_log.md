@@ -4620,3 +4620,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-09-01 13:29:56 北京时间
+
+<!-- daily-push:2026-09-02 status=sent generated_at=2026-09-02T12:56:02.747258+08:00 -->
+## 2026-09-02 推送记录
+
+- 生成时间：2026-09-02 12:56:02 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-09-02.md` / `outputs/daily_report_2026-09-02.html` / `outputs/daily_report_2026-09-02.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-09-02
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "b034f443-b6a5-49f3-be98-c1767a79df8e", "data": {"results": [{"title": "A Comprehensive Guide to How Refrigerators Work", "url": "https://www.mymortuarycooler.com/blogs/news/a-comprehensive-guide-to-how-refrigerators-work?srsltid=AfmBOoqhTQcXbCqrV7y-CxUoEWP_o3bkes7cw3NSQ1b3Tg2zas6wFDfN", "snippet": "Discover how refrigerators work, key components, energy tips, and maintenance for safe, efficient food storage in this expert guide.", "content": "Disc`
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-09-02 12:56:02 北京时间
