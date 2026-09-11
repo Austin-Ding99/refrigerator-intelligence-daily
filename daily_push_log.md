@@ -5106,3 +5106,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-09-10 13:05:15 北京时间
+
+<!-- daily-push:2026-09-11 status=sent generated_at=2026-09-11T13:01:49.758925+08:00 -->
+## 2026-09-11 推送记录
+
+- 生成时间：2026-09-11 13:01:49 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-09-11.md` / `outputs/daily_report_2026-09-11.html` / `outputs/daily_report_2026-09-11.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-09-11
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "afa27780-112a-4af0-b5ed-cf26198d7bf7", "data": {"results": [{"title": "Your refrigerator isn't just a box that gets cold. It's a precision ...", "url": "https://www.facebook.com/smartestworker/posts/your-refrigerator-isnt-just-a-box-that-gets-coldits-a-precision-engineered-cooli/906837638936709/", "snippet": "It's a precision engineered cooling system built layer by layer. ❄️ From welded steel frames... to airtight foam insulation... to copper coi`
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-09-11 13:01:49 北京时间
