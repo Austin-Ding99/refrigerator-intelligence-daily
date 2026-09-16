@@ -5376,3 +5376,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-09-15 13:10:16 北京时间
+
+<!-- daily-push:2026-09-16 status=sent generated_at=2026-09-16T13:06:06.938228+08:00 -->
+## 2026-09-16 推送记录
+
+- 生成时间：2026-09-16 13:06:06 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-09-16.md` / `outputs/daily_report_2026-09-16.html` / `outputs/daily_report_2026-09-16.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-09-16
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "8e527603-67ca-41ed-8503-ee1e0d4a9d19", "data": {"results": [{"title": "Whirlpool Corporation’s SlimTech™️ Insulation Technology Wins ...", "url": "https://whirlpoolpro.com/slimtech-insulation-wins-innovation-by-design-honors/", "snippet": "Announced in November 2023, SlimTech™ insulation technology fundamentally rethinks the design and manufacturing of a refrigerator by replacing bulking polyurethane foam with a proprietary, powder-like material t`
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-09-16 13:06:06 北京时间
