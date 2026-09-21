@@ -5646,3 +5646,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-09-20 13:14:56 北京时间
+
+<!-- daily-push:2026-09-21 status=sent generated_at=2026-09-21T13:18:15.536005+08:00 -->
+## 2026-09-21 推送记录
+
+- 生成时间：2026-09-21 13:18:15 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-09-21.md` / `outputs/daily_report_2026-09-21.html` / `outputs/daily_report_2026-09-21.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-09-21
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "f4e6296f-bde4-4c31-bc66-5a3888a6b1a7", "data": {"results": [{"title": "Multiple Pathways to Super-Efficient Refrigerators", "url": "https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=910181GB.TXT", "snippet": "Pathway 3 examines the effects of a higher EER compressor and the use of thick-wall cabinet insulation. Steps 1 through 4 are sample changes from the ...", "content": "Pathway 3 examines the effects of a higher EER compressor and the use of thick-w`
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-09-21 13:18:15 北京时间
