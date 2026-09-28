@@ -6024,3 +6024,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-09-27 13:36:14 北京时间
+
+<!-- daily-push:2026-09-28 status=sent generated_at=2026-09-28T13:43:53.340659+08:00 -->
+## 2026-09-28 推送记录
+
+- 生成时间：2026-09-28 13:43:53 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-09-28.md` / `outputs/daily_report_2026-09-28.html` / `outputs/daily_report_2026-09-28.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-09-28
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "b1c6c38a-429b-47af-9892-dbe66ae33b1f", "data": {"results": [{"title": "Your refrigerator isn't just a box that gets cold. It's ...", "url": "https://www.facebook.com/smartestworker/posts/your-refrigerator-isnt-just-a-box-that-gets-coldits-a-precision-engineered-cooli/906837638936709/", "snippet": "Your refrigerator isn't just a box that gets cold. It's a precision engineered cooling system built layer by layer.", "content": "Your refrigerator isn'`
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-09-28 13:43:53 北京时间
