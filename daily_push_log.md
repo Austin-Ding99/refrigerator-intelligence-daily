@@ -6132,3 +6132,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-09-29 14:00:58 北京时间
+
+<!-- daily-push:2026-09-30 status=sent generated_at=2026-09-30T13:50:18.816976+08:00 -->
+## 2026-09-30 推送记录
+
+- 生成时间：2026-09-30 13:50:18 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-09-30.md` / `outputs/daily_report_2026-09-30.html` / `outputs/daily_report_2026-09-30.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-09-30
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "501dddec-04ee-4d29-ac97-4362ab0dc271", "data": {"results": [{"title": "Digital Undercounter ecostore HP Premium Refrigerated Counter", "url": "https://www.electroluxprofessional.com/commercial-kitchen-equipment/refrigeration/refrigerated-counters/digital-undercounter-ecostore-hp-premium-refrigerated-counter-590lt-4-door-no-top-710504/", "snippet": "Interior LED light to save energy and for best internal visibility. Built-in high efficiency Energy `
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-09-30 13:50:18 北京时间
