@@ -6348,3 +6348,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-10-03 13:36:26 北京时间
+
+<!-- daily-push:2026-10-04 status=sent generated_at=2026-10-04T14:12:13.739602+08:00 -->
+## 2026-10-04 推送记录
+
+- 生成时间：2026-10-04 14:12:13 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-10-04.md` / `outputs/daily_report_2026-10-04.html` / `outputs/daily_report_2026-10-04.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-10-04
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "82e7fce5-6f9e-4c0a-9af9-b8261d28a557", "data": {"results": [{"title": "KraussMaffei", "url": "https://www.facebook.com/kraussmaffei/posts/refrigerators-consume-up-to-15-of-a-households-electricity-and-inefficient-insul/1304926411634562/", "snippet": "🏗️ Aerofoam® NBR is a flexible closed-cell elastomeric thermal insulation foam designed to deliver energy efficiency and long-term durability.", "content": "🏗️ Aerofoam® NBR is a flexible closed-cell `
+- 过滤结果：原始 60 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-10-04 14:12:13 北京时间
