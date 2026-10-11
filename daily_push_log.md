@@ -6726,3 +6726,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-10-10 14:14:28 北京时间
+
+<!-- daily-push:2026-10-11 status=sent generated_at=2026-10-11T14:13:47.063326+08:00 -->
+## 2026-10-11 推送记录
+
+- 生成时间：2026-10-11 14:13:47 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 15 条，retained 0 条
+- AnySearch HTTP：[502, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-10-11.md` / `outputs/daily_report_2026-10-11.html` / `outputs/daily_report_2026-10-11.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-10-11
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 32 条
+- AnySearch：已调用 AnySearch v1/search，返回 15 条
+- AnySearch解析：HTTP 502,200,200,200，parsed 15 条，retained 0 条
+- AnySearch raw response sample：`{"code": -1, "message": "Search service temporarily unavailable.", "request_id": "97a5217f-4ab6-4c19-8bdb-54f6a0684da2"}`
+- 过滤结果：原始 55 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-10-11 14:13:47 北京时间
