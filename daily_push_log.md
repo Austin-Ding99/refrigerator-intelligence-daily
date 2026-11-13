@@ -8508,3 +8508,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-11-12 15:33:24 北京时间
+
+<!-- daily-push:2026-11-13 status=sent generated_at=2026-11-13T15:04:53.186033+08:00 -->
+## 2026-11-13 推送记录
+
+- 生成时间：2026-11-13 15:04:53 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-11-13.md` / `outputs/daily_report_2026-11-13.html` / `outputs/daily_report_2026-11-13.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-11-13
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 31 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "e310b8ca99cf4061bc2f7c820d4ed978", "data": {"results": [{"title": "Refrigerators | ENERGY STAR", "url": "https://www.energystar.gov/products/refrigerators", "snippet": "With an ENERGY STAR certified refrigerator or cooler, improved insulation that helps food stay cold, and temperature and defrost mechanisms", "content": "With an ENERGY STAR certified refrigerator or cooler, improved insulation that helps food stay cold, and temperature and defrost`
+- 过滤结果：原始 59 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-11-13 15:04:53 北京时间
