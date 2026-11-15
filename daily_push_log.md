@@ -8616,3 +8616,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-11-14 14:53:59 北京时间
+
+<!-- daily-push:2026-11-15 status=sent generated_at=2026-11-15T14:59:39.959553+08:00 -->
+## 2026-11-15 推送记录
+
+- 生成时间：2026-11-15 14:59:39 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-11-15.md` / `outputs/daily_report_2026-11-15.html` / `outputs/daily_report_2026-11-15.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-11-15
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 31 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "d3a542fd2c8e4bc086f19d1edd90ceb5", "data": {"results": [{"title": "A Critical Literature Review of Defrost Technologies for Heat ...", "url": "https://info.ornl.gov/sites/publications/Files/Pub117976.pdf", "snippet": "by K Nawaz · 2018 · Cited by 44 — The reduction in airflow and increased thermal resistance reduces the heat energy extracted by the evaporator and decreases the heat pump ...", "content": "by K Nawaz · 2018 · Cited by 44 — The reduc`
+- 过滤结果：原始 59 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-11-15 14:59:39 北京时间
