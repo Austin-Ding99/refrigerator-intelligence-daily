@@ -8724,3 +8724,57 @@
 ---
 本简报由 Refrigerator Industry AI Agent 自动生成
 生成时间：2026-11-16 15:07:21 北京时间
+
+<!-- daily-push:2026-11-17 status=sent generated_at=2026-11-17T16:19:50.668069+08:00 -->
+## 2026-11-17 推送记录
+
+- 生成时间：2026-11-17 16:19:50 北京时间
+- 邮件状态：sent
+- 收录条目：0
+- AnySearch：called，parsed 20 条，retained 0 条
+- AnySearch HTTP：[200, 200, 200, 200]
+- AI总结：skipped_no_candidates
+- 输出文件：`outputs/daily_report_2026-11-17.md` / `outputs/daily_report_2026-11-17.html` / `outputs/daily_report_2026-11-17.json`
+
+### 可补充备注
+
+- 
+
+### 当日推送正文
+
+# 冰箱行业 AI 科技日报
+
+日期：2026-11-17
+
+---
+
+## 运行状态
+
+- 固定源采集：RSS 8 条，官网/网页 31 条
+- AnySearch：已调用 AnySearch v1/search，返回 20 条
+- AnySearch解析：HTTP 200,200,200,200，parsed 20 条，retained 0 条
+- AnySearch raw response sample：`{"code": 0, "message": "success", "request_id": "bda2c5a984a349929bfc77553446b770", "data": {"results": [{"title": "Cooling Load Analysis of a Household Refrigeration System: Evaluating the Impact of Compressor…", "url": "https://doi.org/10.38032/scse.2025.3.156", "snippet": "This research explores the cooling load and compressor performance in a R600a-based household refrigeration system, focusing on energy efficiency and thermal optimization.", "content": "authors: - Md. Sohan Hossain - Dipaya`
+- 过滤结果：原始 59 条，保留 0 条
+- AI总结：无候选内容，未调用模型
+
+---
+
+## 1. 最新技术
+
+最近24小时内暂无更新
+
+## 2. AI赋能应用
+
+最近24小时内暂无更新
+
+## 3. 最新专利
+
+最近24小时内暂无更新
+
+## 4. 市场行情
+
+最近24小时内暂无更新
+
+---
+本简报由 Refrigerator Industry AI Agent 自动生成
+生成时间：2026-11-17 16:19:50 北京时间
